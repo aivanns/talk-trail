@@ -1,8 +1,22 @@
-# React + Vite
+# TalkTrail
+A messanger for talking (xd)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# How to run
+1. Clone repository and go to dir
+```git clone https://github.com/aivanns/talk-trail.git && cd talk-trail```
+2. Install libraries
+```npm i```
+3. Run project
+```npm run dev```
 
-Currently, two official plugins are available:
+# How to build and run
+1. Clone repository and go to dir
+```git clone https://github.com/aivanns/talk-trail.git && cd talk-trail```
+2. Build project
+```npm run build```
+3. Install *serve*
+```npm install serve```
+4. Run serve
+```serve -s dist``` [dist] - directory with builded app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Enjoy!
