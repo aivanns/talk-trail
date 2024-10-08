@@ -1,11 +1,12 @@
 import './App.css'
 import Registration from './components/Registration/Registration'
+import RegistrationSecond from './components/Registration/RegistrationSecond'
 
 function App() {
 
   return (
     <>
-      <Registration></Registration>
+      <RegistrationSecond></RegistrationSecond>
     </>
   )
 }
