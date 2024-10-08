@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import defaultAvatar from '../../assets/avatar.svg';
 
 const RegistrationSecond = () => {
   const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ const RegistrationSecond = () => {
                 {avatar ? (
                   <img src={avatar} alt="Avatar" className="object-cover w-full h-full" />
                 ) : (
-                  <img src="/path/to/default-avatar.png" alt="Default Avatar" className="object-cover w-full h-full" />
+                  <img src={defaultAvatar} alt="Default Avatar" className="object-cover w-full h-full" />
                 )}
               </div>
               <label className="px-4 py-2 text-sm font-medium text-text-color bg-main-4 rounded-md cursor-pointer hover:bg-main-3">
