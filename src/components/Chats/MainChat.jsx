@@ -15,7 +15,7 @@ export default function MainChat() {
     <div className="flex min-h-screen bg-main-2 text-text-color">
         <div className='h-[50rem] w-20 bg-main-1 rounded-r-2xl self-center resize-none flex-shrink-0'>
             <div className='flex justify-center'>
-                <img src={avatar} alt="avatar" className='w-14 h-14 rounded-full mt-4' />
+                <img src={avatar} alt="avatar" className='w-14 h-14 rounded-full mt-3' />
             </div>
             <button onClick={() => handleExit()} className='w-14 h-14 bg-main-3 rounded-full mt-[37.5rem] mx-auto block'>Exit</button>
             <div className="flex justify-center mt-[1rem]">

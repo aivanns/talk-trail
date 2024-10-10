@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setToken } from './TokenService';
-import { API_URL } from '../static';
+import { API_URL } from '../env/static';
 
 export const register = async (email, password, username) => {
   const response = await axios.post(`${API_URL}/auth/signup`, {username, password, email});
