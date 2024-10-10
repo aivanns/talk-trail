@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import defaultAvatar from '../../assets/avatar.svg';
+import { register } from '../../utils/AuthService';
+import { useNavigate } from 'react-router-dom';
 
-const RegistrationSecond = () => {
+const RegistrationSecond = ({handler}) => {
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -11,6 +14,19 @@ const RegistrationSecond = () => {
         setAvatar(URL.createObjectURL(file));
     }
   };
+
+  const handleRegister = async () => {
+    const regData = JSON.parse(localStorage.getItem('regData'));
+    const response = await register(regData.email, regData.password, username);
+    if (response) {
+      localStorage.removeItem('regData');
+      navigate('/chats');
+      window.location.reload();
+    } else {
+      alert('Непредвиденная ошибка');
+      console.log(response);
+    }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-main-2">
@@ -48,10 +64,10 @@ const RegistrationSecond = () => {
           </div>
           
           <div className="flex justify-between mt-8">
-            <button className="px-4 py-2 text-sm font-medium text-text-color bg-red-500 rounded-md hover:bg-red-400">
+            <button onClick={() => handler(1)} className="px-4 py-2 text-sm font-medium text-text-color bg-red-500 rounded-md hover:bg-red-400">
               Назад
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-text-color bg-main-4 rounded-md hover:bg-main-3">
+            <button onClick={() => handleRegister()} className="px-4 py-2 text-sm font-medium text-text-color bg-main-4 rounded-md hover:bg-main-3">
               Далее
             </button>
           </div>
