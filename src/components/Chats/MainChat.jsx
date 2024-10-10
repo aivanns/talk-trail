@@ -3,7 +3,7 @@ import { FaCog } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import avatar from '../../assets/avatar.svg';
 import { removeToken } from '../../utils/TokenService';
-
+import Message from './Components/Message';
 export default function MainChat() {
 
     const handleExit = () => {
@@ -34,9 +34,13 @@ export default function MainChat() {
                 </div>
             </div>
             <div className='h-[46.5rem] w-[64rem] bg-main-1 rounded-b-2xl flex flex-col justify-end'>
+                <div className="flex flex-col items-start">
+                    <Message message={'привет'} className="max-w-full w-auto"/> 
+                    <Message message={'че как'} className="max-w-full w-auto"/> 
+                </div> 
                 <div className="flex justify-center items-center">
-                  <input type="text" className='h-[2.5rem] w-[57rem] bg-main-3 rounded-xl mb-5 mt-3 pl-3 mr-3 focus:outline-none' placeholder='Введите сообщение...' />
-                  <IoIosSend className="w-8 h-8 text-main-4 mb-5 ml-2 mt-3 cursor-pointer" />
+                    <input type="text" className='h-[2.5rem] w-[57rem] bg-main-3 rounded-xl mb-5 mt-3 pl-3 mr-3 focus:outline-none' placeholder='Введите сообщение...' />
+                    <IoIosSend className="w-8 h-8 text-main-4 mb-5 ml-2 mt-3 cursor-pointer" />
                 </div>
             </div>
         </div>
