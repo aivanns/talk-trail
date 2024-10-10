@@ -12,11 +12,13 @@ A messanger for talking (xd)
 # How to build and run
 1. Clone repository and go to dir
 ```git clone https://github.com/aivanns/talk-trail.git && cd talk-trail```
-2. Build project
+2. Install libraries
+```npm i```
+3. Build project
 ```npm run build```
-3. Install *serve*
+4. Install *serve*
 ```npm install serve```
-4. Run serve
+5. Run serve
 ```serve -s dist``` [dist] - directory with builded app
 
 Enjoy!
