@@ -6,6 +6,7 @@ import { CONFIRM_PASSWORD, EMAIL, HAVE_ACCOUNT, INVALID_EMAIL, LOGIN, MUST_BE_EM
 import notificationService from '../../shared/utils/notificationService';
 import { Link } from 'react-router-dom';
 import { register } from '../../shared/utils/authService';
+import UnifiedAuthForm from './unified-auth-form';
 
 const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
   try {
@@ -26,18 +27,7 @@ const onFinishFailed: FormProps<RegistrationFieldType>['onFinishFailed'] = (erro
 
 const RegistrationForm = () => {
     return (
-        <Form
-    className='auth-form'
-    name="basic"
-    layout="vertical"
-    labelCol={{ span: 10 }}
-    wrapperCol={{ span: 24 }}
-    style={{ maxWidth: 600 }}
-    initialValues={{ remember: true }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    autoComplete="off"
-  >
+        <UnifiedAuthForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
     <Form.Item<RegistrationFieldType>
       label={USERNAME}
       name="username"
@@ -116,7 +106,7 @@ const RegistrationForm = () => {
       <p className="mt-4 text-center text-text-color">
         {HAVE_ACCOUNT} <Link to="/auth/login" className="text-main-4 underline">{LOGIN}</Link>
       </p>
-  </Form>
+    </UnifiedAuthForm>
 
     )
 }

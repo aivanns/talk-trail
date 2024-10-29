@@ -5,6 +5,7 @@ import { LoginFieldType } from "../../types/auth";
 import notificationService from "../../shared/utils/notificationService";
 import { login } from "../../shared/utils/authService";
 import type { FormProps } from 'antd';
+import UnifiedAuthForm from "./unified-auth-form";
 
 const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
   try {
@@ -25,18 +26,7 @@ const onFinishFailed: FormProps<LoginFieldType>['onFinishFailed'] = (errorInfo) 
 
 const AuthForm = () => {
   return (
-    <Form
-      className='auth-form'
-      name="basic"
-      layout="vertical"
-      labelCol={{ span: 10 }}
-      wrapperCol={{ span: 24 }}
-      style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
+    <UnifiedAuthForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item<LoginFieldType>
         label={USERNAME}
         name="username"
@@ -77,7 +67,7 @@ const AuthForm = () => {
       <p className="mt-4 text-center text-text-color">
         {NOT_HAVE_ACCOUNT} <Link to="/auth/register" className="text-main-4 underline">{REGISTER}</Link>
       </p>
-    </Form>   
+    </UnifiedAuthForm>   
   )
 }
 

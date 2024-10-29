@@ -1,11 +1,10 @@
-import axios from 'axios';
-import { API_URL } from '../constants/api';
 import { setToken } from './tokenService';
 import { AuthResponse, AuthReturn } from '../interfaces/auth';
+import { apiInstance } from '../../api/global';
 
 export const register = async (email: string, password: string, username: string): Promise<AuthReturn> => {
   try {
-    const response = await axios.post<AuthResponse>(`${API_URL}/auth/signup`, { username, password, email });
+    const response = await apiInstance.post<AuthResponse>(`/auth/signup`, { username, password, email });
     if (response.status >= 200 && response.status < 300) {
       setToken(response.data.accessToken, response.data.refreshToken);
       return { success: true, message: 'Регистрация прошла успешно!' };
@@ -18,7 +17,7 @@ export const register = async (email: string, password: string, username: string
 
 export const login = async (email: string, password: string): Promise<AuthReturn> => {
   try {
-    const response = await axios.post<AuthResponse>(`${API_URL}/auth/signin`, { email, password });
+    const response = await apiInstance.post<AuthResponse>(`/auth/signin`, { email, password });
     if (response.status >= 200 && response.status < 300) {
       setToken(response.data.accessToken, response.data.refreshToken);
       return { success: true, message: 'Вход выполнен успешно' };
