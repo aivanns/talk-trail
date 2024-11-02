@@ -18,8 +18,8 @@ const ChatWin = () => {
             </div>
             <div className='h-[46.5rem] w-full bg-main-1 rounded-b-2xl flex flex-col justify-end'>
                 <div className="flex flex-col items-start">
-                    <ChatMessage message="12313jkfdskjfsdlksdkfkjsfdkаылаавылоаыолвлдаоыаыоваолывлдаыволаываловлоаыдлаодлавоаыдлjfdsjlkfdjlkfdsflkjdfdlkjsfsdlkjsdlkfsjdlkdfjlkjdfkdjksjslkdjldskfojjfokkirknfoei" avatar={avatar} isLastInSequence={true} />
-                    <ChatMessage message="12jlkjdfkdjksjslkdjldskfojjfokkirknfoei" avatar={avatar} isLastInSequence={false} />
+                    <ChatMessage message="12313jkfdskjfsdlksdkfkjsfdkаылаавылоаыолвлдаоыаыоваолывлдаыволаываловлоаыдлаодлавоаыдлjfdsjlkfdjlkfdsflkjdfdlkjsfsdlkjsdlkfsjdlkdfjlkjdfkdjksjslkdjldskfojjfokkirknfoei" avatar={avatar} isLastInSequence={false} />
+                    <ChatMessage message="12jlkjdfkdjksjslkdjldskfojjfokkirknfoei" avatar={avatar} isLastInSequence={true} />
                 </div> 
                 <div className="flex justify-center items-center">
                     <input type="text" className='h-[2.5rem] w-full bg-main-3 rounded-xl my-5 pl-3 ml-5 focus:outline-none' placeholder={SEND_PLACEHOLDER} />
