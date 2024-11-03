@@ -16,6 +16,7 @@ Welcome to **Talk Trail**, a modern chat application designed to facilitate seam
   - TypeScript
   - Tailwind CSS
   - Ant Design
+  - Dobry Cola Zero
 
 ## Getting Started 🚀
 
