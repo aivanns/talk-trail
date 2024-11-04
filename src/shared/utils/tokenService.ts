@@ -4,9 +4,9 @@ import type { DecodedToken } from '../interfaces/auth';
 import { apiInstance } from '../../api/global';
 
 export const setToken = (token: string, refreshToken: string | null = null) => {
-  Cookies.set('token', token, { secure: true, sameSite: 'Strict' });
+  Cookies.set('token', token, {sameSite: 'Strict' });
   if (refreshToken) {
-    Cookies.set('refreshToken', refreshToken, { secure: true, sameSite: 'Strict' });
+    Cookies.set('refreshToken', refreshToken, {sameSite: 'Strict' });
   }
 };
 
