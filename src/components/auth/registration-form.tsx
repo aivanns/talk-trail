@@ -8,26 +8,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../shared/utils/authService';
 import UnifiedAuthForm from './unified-auth-form';
 
-const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
-  const navigate = useNavigate();
-  try {
-    const { success, message } = await register(values.username, values.password, values.username);
-    if (success) {
-      notificationService.success('Успех', message);
-      navigate('/chats');
-    } else {
-      notificationService.error('Ошибка', message);
-    }
-  } catch (error) {
-    notificationService.error('Ошибка', (error as any).message as string);
-  }
-};
-
-const onFinishFailed: FormProps<RegistrationFieldType>['onFinishFailed'] = (errorInfo) => {
-  notificationService.errorWithMany(errorInfo);
-};
-
 const RegistrationForm = () => {
+
+  const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
+    const navigate = useNavigate();
+    try {
+      const { success, message } = await register(values.username, values.password, values.username);
+      if (success) {
+        notificationService.success('Успех', message);
+        navigate('/chats');
+      } else {
+        notificationService.error('Ошибка', message);
+      }
+    } catch (error) {
+      notificationService.error('Ошибка', (error as any).message as string);
+    }
+  };
+  
+  const onFinishFailed: FormProps<RegistrationFieldType>['onFinishFailed'] = (errorInfo) => {
+    notificationService.errorWithMany(errorInfo);
+  };
+  
     return (
         <UnifiedAuthForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
     <Form.Item<RegistrationFieldType>
