@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import type { NotificationType } from '../../types/global';
+import type { NotificationType } from '../../../types/global';
 import type { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 
 const openNotification = (type: NotificationType, message: string, description: string) => {

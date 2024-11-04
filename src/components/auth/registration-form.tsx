@@ -3,9 +3,9 @@ import type { FormProps } from 'antd';
 import { Button, Form, Input} from 'antd';
 import { RegistrationFieldType } from '../../types/auth';
 import { CONFIRM_PASSWORD, HAVE_ACCOUNT, LOGIN, MUST_BE_PASSWORD, MUST_BE_USERNAME, PASSWORD, PASSWORD_LESS_MIN, PASSWORDS_NOT_MATCH, REGISTER, USERNAME } from '../../shared/constants/auth';
-import notificationService from '../../shared/utils/notificationService';
+import notificationService from '../../shared/utils/services/notificationService';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../../shared/utils/authService';
+import { register } from '../../shared/utils/services/authService';
 import UnifiedAuthForm from './unified-auth-form';
 
 const RegistrationForm = () => {
