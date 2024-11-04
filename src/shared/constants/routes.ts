@@ -8,6 +8,11 @@ export const ROUTES = {
         REGISTER: 'register'
       }
     },
-    CHATS: '/chats',
+    CHATS: {
+      ROOT: '/chats',
+      NESTED: {
+        CHAT: ':uuid'
+      }
+    },
     ROOT: '/'
   } as const
