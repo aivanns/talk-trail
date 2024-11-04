@@ -1,7 +1,7 @@
 import avatar from '../../../assets/avatar.svg';
 const ChatUserSearch = ({ users }: { users: any[] }) => {
     return (
-        <>
+        <div className="max-h-[81dvh] overflow-y-auto scrollbar-hide">
             {users.map((user: any) => (
                 <div key={user.uuid} className='flex flex-row items-center justify-start bg-main-2 rounded-xl w-full h-16 mb-4 hover:bg-main-3 transition-colors duration-150 cursor-pointer'>
                     <div className='w-10 h-10 bg-main-3 rounded-full ml-4'>{user.avatar == null ? <img src={avatar} alt='avatar' /> : <img src={user.avatar} alt='avatar' />}</div>
@@ -12,7 +12,7 @@ const ChatUserSearch = ({ users }: { users: any[] }) => {
                     <div className='ml-auto mr-4 text-sm text-gray-color'>{user.lastTimeOnline ? user.lastTimeOnline : 'Offline'}</div>
                 </div>
             ))}
-        </>
+        </div>
     )
 }
 
