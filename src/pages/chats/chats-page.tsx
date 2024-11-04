@@ -4,7 +4,7 @@ import ChatWin from "../../components/chats/chat-win";
 
 const ChatsPage = () => {
     return (
-        <div className="flex min-h-screen bg-main-2 text-text-color">
+        <div className="flex min-h-screen min-w-max bg-main-2 text-text-color">
             <ChatSidebar />
             <ChatChooser />
             <ChatWin />
