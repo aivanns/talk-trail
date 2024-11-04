@@ -2,17 +2,19 @@ import '../../index.css'
 import type { FormProps } from 'antd';
 import { Button, Form, Input} from 'antd';
 import { RegistrationFieldType } from '../../types/auth';
-import { CONFIRM_PASSWORD, EMAIL, HAVE_ACCOUNT, INVALID_EMAIL, LOGIN, MUST_BE_EMAIL, MUST_BE_PASSWORD, MUST_BE_USERNAME, PASSWORD, PASSWORD_LESS_MIN, PASSWORDS_NOT_MATCH, REGISTER, USERNAME } from '../../shared/constants/auth';
+import { CONFIRM_PASSWORD, HAVE_ACCOUNT, LOGIN, MUST_BE_PASSWORD, MUST_BE_USERNAME, PASSWORD, PASSWORD_LESS_MIN, PASSWORDS_NOT_MATCH, REGISTER, USERNAME } from '../../shared/constants/auth';
 import notificationService from '../../shared/utils/notificationService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../shared/utils/authService';
 import UnifiedAuthForm from './unified-auth-form';
 
 const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
+  const navigate = useNavigate();
   try {
-    const { success, message } = await register(values.email, values.password, values.username);
+    const { success, message } = await register(values.username, values.password, values.username);
     if (success) {
       notificationService.success('Успех', message);
+      navigate('/chats');
     } else {
       notificationService.error('Ошибка', message);
     }
@@ -36,21 +38,6 @@ const RegistrationForm = () => {
             required: true, 
             message: MUST_BE_USERNAME 
         }, ]}
-    >
-      <Input />
-    </Form.Item>
-        <Form.Item<RegistrationFieldType>
-      label={EMAIL}
-      name="email"
-      rules={[
-        { 
-            required: true, 
-            message: MUST_BE_EMAIL 
-        }, 
-        {
-            type: 'email',
-            message: INVALID_EMAIL,
-        },]}
     >
       <Input />
     </Form.Item>

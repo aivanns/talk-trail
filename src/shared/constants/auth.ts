@@ -1,6 +1,6 @@
 export const NOT_HAVE_ACCOUNT = "Еще нет аккаунта?"
 export const HAVE_ACCOUNT = "Уже есть аккаунт?"
-export const REGISTER = "Зарегестрироваться"
+export const REGISTER = "Зарегистрироваться"
 export const LOGIN = "Войти"
 export const EMAIL = "Почта"
 export const PASSWORD = "Пароль"

@@ -1,5 +1,5 @@
 import { Input, Button, Form } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGIN, MUST_BE_PASSWORD, PASSWORD, PASSWORD_LESS_MIN, REGISTER, MUST_BE_USERNAME, USERNAME, NOT_HAVE_ACCOUNT } from "../../shared/constants/auth";
 import { LoginFieldType } from "../../types/auth";
 import notificationService from "../../shared/utils/notificationService";
@@ -7,24 +7,27 @@ import { login } from "../../shared/utils/authService";
 import type { FormProps } from 'antd';
 import UnifiedAuthForm from "./unified-auth-form";
 
-const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
-  try {
-    const { success, message } = await login(values.username, values.password);
-    if (success) {
-      notificationService.success('Успех', message);
-    } else {
-      notificationService.error('Ошибка', message);
-    }
-  } catch (error) {
-    notificationService.error('Ошибка', error as string);
-  }
-};
-
-const onFinishFailed: FormProps<LoginFieldType>['onFinishFailed'] = (errorInfo) => {
-  notificationService.errorWithMany(errorInfo);
-};
-
 const AuthForm = () => {
+  const navigate = useNavigate();
+
+  const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
+    try {
+      const { success, message } = await login(values.username, values.password);
+      if (success) {
+        notificationService.success('Успех', message);
+        navigate('/chats');
+      } else {
+        notificationService.error('Ошибка', message);
+      }
+    } catch (error) {
+      notificationService.error('Ошибка', error as string);
+    }
+  };
+  
+  const onFinishFailed: FormProps<LoginFieldType>['onFinishFailed'] = (errorInfo) => {
+    notificationService.errorWithMany(errorInfo);
+  };
+
   return (
     <UnifiedAuthForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item<LoginFieldType>
