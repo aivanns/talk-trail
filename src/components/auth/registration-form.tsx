@@ -9,9 +9,9 @@ import { register } from '../../shared/utils/authService';
 import UnifiedAuthForm from './unified-auth-form';
 
 const RegistrationForm = () => {
-
+  const navigate = useNavigate();
   const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
-    const navigate = useNavigate();
+    
     try {
       const { success, message } = await register(values.username, values.password, values.username);
       if (success) {
@@ -28,7 +28,7 @@ const RegistrationForm = () => {
   const onFinishFailed: FormProps<RegistrationFieldType>['onFinishFailed'] = (errorInfo) => {
     notificationService.errorWithMany(errorInfo);
   };
-  
+
     return (
         <UnifiedAuthForm onFinish={onFinish} onFinishFailed={onFinishFailed}>
     <Form.Item<RegistrationFieldType>
