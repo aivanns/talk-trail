@@ -12,6 +12,7 @@ export default {
         'main-3': '#415A77',
         'main-4': '#778DA9',
         'text-color': '#E0E1DD',
+        'gray-color': '#8F93A2',
       },
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
