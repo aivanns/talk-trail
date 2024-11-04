@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { isAuthenticated } from '../utils/tokenService';
+import { isAuthenticated } from '../../shared/utils/services/tokenService';
 import { useEffect, useState } from 'react';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -20,7 +20,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     if (!isAuth && !isLoading) {
         return <Navigate to="/auth/login" replace />;
     }
-    return <>{children}</>;
+    else {
+        return <>{children}</>;
+    }
 
 };
 

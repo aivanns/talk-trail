@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { SEARCH_PLACEHOLDER } from "../../shared/constants/chats";
 import ChatList from './components/chat-list';
 import ChatUserSearch from './components/chat-user-search';
-import { searchUsers } from '../../shared/utils/searchService';
+import { searchUsers } from '../../shared/utils/services/searchService';
 
 const ChatSideList = () => {
     const [searchValue, setSearchValue] = useState('');

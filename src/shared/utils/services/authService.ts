@@ -1,6 +1,6 @@
 import { setToken } from './tokenService';
-import { AuthResponse, AuthReturn } from '../interfaces/auth';
-import { apiInstance } from '../../api/global';
+import { AuthResponse, AuthReturn } from '../../../shared/interfaces/auth';
+import { apiInstance } from '../../../api/global';
 
 export const register = async (name: string, password: string, username: string): Promise<AuthReturn> => {
   try {

@@ -2,8 +2,8 @@ import { Input, Button, Form } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGIN, MUST_BE_PASSWORD, PASSWORD, PASSWORD_LESS_MIN, REGISTER, MUST_BE_USERNAME, USERNAME, NOT_HAVE_ACCOUNT } from "../../shared/constants/auth";
 import { LoginFieldType } from "../../types/auth";
-import notificationService from "../../shared/utils/notificationService";
-import { login } from "../../shared/utils/authService";
+import notificationService from "../../shared/utils/services/notificationService";
+import { login } from "../../shared/utils/services/authService";
 import type { FormProps } from 'antd';
 import UnifiedAuthForm from "./unified-auth-form";
 

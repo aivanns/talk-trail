@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
-import type { DecodedToken } from '../interfaces/auth';
-import { apiInstance } from '../../api/global';
+import type { DecodedToken } from '../../../shared/interfaces/auth';
+import { apiInstance } from '../../../api/global';
 
 export const setToken = (token: string, refreshToken: string | null = null) => {
   Cookies.set('token', token, {sameSite: 'Strict' });

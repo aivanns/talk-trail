@@ -55,3 +55,12 @@ body {
 .search-input.ant-input::placeholder {
     @apply text-text-color opacity-50;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
