@@ -1,7 +1,7 @@
 import { IoIosMore, IoIosSearch, IoIosSend } from "react-icons/io";
 import { SEND_PLACEHOLDER } from "../../shared/constants/chats";
 import avatar from "../../assets/avatar.svg";
-import ChatMessage from "./chat-message";
+import ChatMessage from "./components/chat-message";
 
 const ChatWin = () => {
     return (

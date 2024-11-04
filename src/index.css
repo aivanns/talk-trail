@@ -37,3 +37,21 @@ body {
 .auth-form .ant-input-password .anticon-eye > svg {
     @apply text-main-4;
 }
+
+/* Chat chooser */
+
+.search-input {
+    @apply h-[2.5rem] w-[22rem] mt-3;
+}
+
+.search-input.ant-input {
+    @apply bg-main-3 border-main-3 text-text-color rounded-xl;
+}
+
+.search-input.ant-input:focus {
+    @apply border-main-4 shadow-none;
+}
+
+.search-input.ant-input::placeholder {
+    @apply text-text-color opacity-50;
+}
