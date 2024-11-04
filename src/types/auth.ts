@@ -1,6 +1,5 @@
 export type RegistrationFieldType = {
     username: string
-    email: string
     password: string
     confirmPassword: string
 }
