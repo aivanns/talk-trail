@@ -1,4 +1,4 @@
-import { ChatMessageProps } from '../../shared/interfaces/chats';
+import { ChatMessageProps } from '../../../shared/interfaces/chats';
 
 const ChatMessage = ({ message, avatar, isLastInSequence }: ChatMessageProps) => {
     return (
