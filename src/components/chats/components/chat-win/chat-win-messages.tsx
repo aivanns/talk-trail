@@ -20,12 +20,7 @@ const ChatWinMessages = () => {
     };
 
     const handleNewMessage = (message: SocketMessage) => {
-        console.log('Получено новое сообщение:', message);
-        console.log('Текущий uuid:', uuid);
-        console.log('UUID чата сообщения:', message.chat.uuid);
-        
         if (message.chat.uuid === uuid) {
-            console.log('Добавляем сообщение в чат');
             setMessages(prevMessages => [...prevMessages, message]);
             scrollToBottom();
         }
@@ -37,13 +32,11 @@ const ChatWinMessages = () => {
         });
 
         if (socket) {
-            console.log('Регистрируем обработчик сообщений для чата:', uuid);
             socket.onMessage(handleNewMessage);
         }
 
         return () => {
             if (socket) {
-                console.log('Удаляем обработчик сообщений для чата:', uuid);
                 socket.offMessage(handleNewMessage);
             }
         };
@@ -55,7 +48,6 @@ const ChatWinMessages = () => {
             
             try {
                 const data = await getMessages(uuid);
-                console.log('Загружены сообщения для чата:', uuid, data.messages);
                 setMessages(data.messages || []);
                 scrollToBottom();
             } catch (error: any) {
@@ -65,7 +57,7 @@ const ChatWinMessages = () => {
             }
         };
 
-        setMessages([]); // Очищаем сообщения при смене чата
+        setMessages([]);
         loadMessages();
     }, [uuid]);
 

@@ -29,13 +29,7 @@ export class SocketChatService {
   private setupListeners(): void {
     if (!this.socket) return;
 
-    this.socket.on('error', (error: Error) => {
-      console.error('Ошибка сокета:', error);
-    });
-
     this.socket.on('recieve-message', (message: SocketMessage) => {
-      console.log('SocketService: Получено новое сообщение:', message);
-      console.log('SocketService: Количество обработчиков:', this.messageHandlers.length);
       this.messageHandlers.forEach(handler => {
         try {
           handler(message);
@@ -44,30 +38,18 @@ export class SocketChatService {
         }
       });
     });
-
-    this.socket.on('connect', () => {
-      console.log('Подключено к серверу');
-    });
-
-    this.socket.on('disconnect', () => {
-      console.log('Отключено от сервера');
-    });
   }
 
   public sendMessage(message: { chatUuid: string; content: string }): void {
-    console.log('SocketService: Отправка сообщения:', message);
     this.socket?.emit('send-message', message);
   }
 
   public onMessage(handler: (message: SocketMessage) => void): void {
     this.messageHandlers.push(handler);
-    console.log('SocketService: Добавлен новый обработчик, всего:', this.messageHandlers.length);
   }
 
   public offMessage(handler: (message: SocketMessage) => void): void {
-    const initialLength = this.messageHandlers.length;
     this.messageHandlers = this.messageHandlers.filter(h => h !== handler);
-    console.log('SocketService: Удален обработчик, было:', initialLength, 'стало:', this.messageHandlers.length);
   }
   
   public disconnect(): void {
