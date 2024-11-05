@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../shared/utils/services/tokenService';
 import notificationService from '../shared/utils/services/notificationService';
+import { ERROR } from '../shared/constants/notification';
 
 export const apiInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -15,7 +16,7 @@ apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status) {
-            return new Promise(() => notificationService.error('Ошибка', error.response?.data?.message || 'Произошла ошибка'));
+            return new Promise(() => notificationService.error(ERROR, error.response?.data?.message || 'Произошла ошибка'));
         }
         return Promise.reject(error);
     }

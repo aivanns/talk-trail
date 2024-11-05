@@ -8,7 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../shared/utils/services/authService';
 import UnifiedAuthForm from './unified-auth-form';
 import { ROUTES } from '../../shared/constants/routes';
-import { SUCCESS } from '../../shared/constants/notification';
 import { ERROR } from '../../shared/constants/notification';
 
 const RegistrationForm = () => {
@@ -16,12 +15,10 @@ const RegistrationForm = () => {
   const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
     
     try {
-      const { success, message } = await register(values.username, values.password, values.username);
+      const { success } = await register(values.username, values.password, values.username);
       if (success) {
-        notificationService.success(SUCCESS, message);
         navigate(ROUTES.CHATS.ROOT);
       } else {
-        notificationService.error(ERROR, message);
       }
     } catch (error) {
       notificationService.error(ERROR, (error as any).message as string);

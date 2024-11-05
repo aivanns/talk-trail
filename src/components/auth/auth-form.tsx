@@ -19,7 +19,7 @@ const AuthForm = () => {
         navigate(ROUTES.CHATS.ROOT);
       }
     } catch (error) {
-      notificationService.error(ERROR, error as string);
+      notificationService.error(ERROR, (error as any).message as string);
     }
   };
   
