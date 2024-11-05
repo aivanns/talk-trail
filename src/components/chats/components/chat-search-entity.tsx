@@ -13,6 +13,7 @@ const ChatSearchEntity = ({user, clearSearch}: {user: User, clearSearch: () => v
             const chat = await createOrGetChat(user.uuid);
             clearSearch();
             navigate(`/chats/${chat.uuid}`);
+            window.location.reload();
         } catch (error) {
             notificationService.error(ERROR, 'Ошибка при создании чата');
         }
