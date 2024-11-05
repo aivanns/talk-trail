@@ -22,3 +22,14 @@ export interface User {
   username: string
   uuid: string
 }
+
+export interface CompanionInfo {
+  avatar: any
+  description: any
+  lastTimeOnline: string
+  name: string
+  username: string
+  uuid: string
+  isOnline: boolean
+}
+
