@@ -1,5 +1,5 @@
 import ChatMessage from "../chat-message";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { SocketMessage } from "../../../../shared/interfaces/chats";
 import { useState, useEffect, useRef } from "react";
 import { getMessages } from "../../../../shared/utils/services/chatService";
@@ -9,6 +9,7 @@ import { getUser } from "../../../../shared/utils/services/userService";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
+    const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [messages, setMessages] = useState<SocketMessage[]>([]);
     const [currentUser, setCurrentUser] = useState<SelfUser | null>(null);
@@ -18,41 +19,55 @@ const ChatWinMessages = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+    const handleNewMessage = (message: SocketMessage) => {
+        console.log('Получено новое сообщение:', message);
+        console.log('Текущий uuid:', uuid);
+        console.log('UUID чата сообщения:', message.chat.uuid);
+        
+        if (message.chat.uuid === uuid) {
+            console.log('Добавляем сообщение в чат');
+            setMessages(prevMessages => [...prevMessages, message]);
+            scrollToBottom();
+        }
+    };
 
     useEffect(() => {
         getUser().then(data => {
             setCurrentUser(data);
         });
-        getMessages(uuid!).then(data => {
-            setMessages(data.messages);
-        });
 
-        const handleNewMessage = (message: SocketMessage) => {
-            if (message.chat.uuid === uuid) {
-                setMessages(prevMessages => {
-                    const messageExists = prevMessages.some(m => m.uuid === message.uuid);
-                    if (messageExists) {
-                        return prevMessages;
-                    }
-                    return [...prevMessages, message];
-                });
-            }
-        };
-
-        
         if (socket) {
+            console.log('Регистрируем обработчик сообщений для чата:', uuid);
             socket.onMessage(handleNewMessage);
         }
 
         return () => {
             if (socket) {
+                console.log('Удаляем обработчик сообщений для чата:', uuid);
                 socket.offMessage(handleNewMessage);
             }
         };
     }, [uuid, socket]);
+
+    useEffect(() => {
+        const loadMessages = async () => {
+            if (!uuid) return;
+            
+            try {
+                const data = await getMessages(uuid);
+                console.log('Загружены сообщения для чата:', uuid, data.messages);
+                setMessages(data.messages || []);
+                scrollToBottom();
+            } catch (error: any) {
+                if (error.response?.status === 404) {
+                    navigate('/chats');
+                }
+            }
+        };
+
+        setMessages([]); // Очищаем сообщения при смене чата
+        loadMessages();
+    }, [uuid]);
 
     return (
         <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">

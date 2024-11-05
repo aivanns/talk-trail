@@ -5,7 +5,7 @@ const ChatUserSearch = ({ users }: { users: any[] }) => {
     return (
         <div className="max-h-[80dvh] overflow-y-auto scrollbar-hide rounded-b-md">
             {users.map((user: User) => (
-                <ChatSearchEntity user={user} />
+                <ChatSearchEntity key={user.uuid} user={user} />
             ))}
         </div>
     )
