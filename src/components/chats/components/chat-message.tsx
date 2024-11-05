@@ -2,7 +2,7 @@ import { SocketMessage } from '../../../shared/interfaces/chats';
 import { formatMessageTime } from '../../../shared/utils/services/chatService';
 import { SelfUser } from '../../../shared/interfaces/user';
 
-const ChatMessage = ({ content, createdAt, user, chat, currentUser }: SocketMessage & {currentUser: SelfUser}) => {
+const ChatMessage = ({ content, createdAt, user, currentUser }: SocketMessage & {currentUser: SelfUser}) => {
     const isLastInSequence = true;
     const formattedTime = formatMessageTime(new Date(createdAt).toISOString());
     const isUser = user.uuid === currentUser.uuid;
