@@ -6,6 +6,7 @@ import { getMessages } from "../../../../shared/utils/services/chatService";
 import { useSocket } from "../../../../shared/contexts/SocketContext";
 import { SelfUser } from "../../../../shared/interfaces/user";
 import { getUser } from "../../../../shared/utils/services/userService";
+import { NO_MESSAGES_PLACEHOLDER } from "../../../../shared/constants/chats";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
@@ -63,9 +64,15 @@ const ChatWinMessages = () => {
 
     return (
         <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">
-            {messages.map((message: SocketMessage) => (
-                <ChatMessage key={message.uuid} {...message} currentUser={currentUser!} />
-            ))}
+            {messages.length === 0 ? (
+                <div className="flex items-center justify-center w-full h-full">
+                    <p className="text-text-color bg-main-2 px-3 py-2 rounded-xl text-center">{NO_MESSAGES_PLACEHOLDER}</p>
+                </div>
+            ) : (
+                messages.map((message: SocketMessage) => (
+                    <ChatMessage key={message.uuid} {...message} currentUser={currentUser!} />
+                ))
+            )}
             <div ref={messagesEndRef} />
         </div>
     );
