@@ -13,12 +13,15 @@ const ChatList = () => {
     
     const loadChats = async () => {
         const data = await getChats();
-        setChats(data);
+        const filteredChats = data.filter((chat: Chat) => {
+            return chat.messages.length > 0 || chat.uuid === uuid;
+        });
+        setChats(filteredChats);
     };
 
     useEffect(() => {
         loadChats();
-    }, []);
+    }, [uuid]);
 
     useEffect(() => {
         if (socket) {
@@ -31,19 +34,19 @@ const ChatList = () => {
                 socket.offMessage(handleNewMessage);
             };
         }
-    }, [socket]);
-    
+    }, [socket, uuid]);
+
     return (
-        <div>
+        <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">
             {chats.map((chat: Chat) => (
                 <ChatEntity 
                     key={chat.uuid} 
-                    chat={chat}
+                    chat={chat} 
                     isActive={chat.uuid === uuid}
                 />
             ))}
         </div>
     );
-}
+};
 
 export default ChatList;
