@@ -42,6 +42,7 @@ const ChatWinMessages = () => {
             }
         };
 
+        
         if (socket) {
             socket.onMessage(handleNewMessage);
         }
