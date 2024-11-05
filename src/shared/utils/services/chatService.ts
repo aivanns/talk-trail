@@ -1,4 +1,5 @@
 import { apiInstance, getHeaders } from "../../../api/global";
+import { Chat, UserChat } from "../../../types/chat";
 
 export const getChats = async () => {
     const response = await apiInstance.get(`/chat/`, {headers: getHeaders()});
@@ -13,6 +14,35 @@ export const getMessages = async (chatUuid: string) => {
 export const getCompanionInfo = async (chatUuid: string) => {
     const response = await apiInstance.get(`/chat/${chatUuid}/companion-info`, {headers: getHeaders()});
     return response.data;
+}
+
+export const createChat = async (companionUuid: string) => {
+    const response = await apiInstance.post(`/chat/`, {
+        companionUuid
+    }, {headers: getHeaders()});
+    return response.data;
+}
+
+export const deleteChat = async (chatUuid: string) => {
+    const response = await apiInstance.delete(`/chat/${chatUuid}`, {headers: getHeaders()});
+    return response.data;
+}
+
+export const createOrGetChat = async (companionUuid: string) => {
+    try {
+        const chats = await getChats();
+        const existingChat = chats.find((chat: Chat) => 
+            chat.userChats.some((userChat: UserChat) => userChat.user.uuid === companionUuid)
+        );
+        
+        if (existingChat) {
+            return existingChat;
+        }
+        
+        return await createChat(companionUuid);
+    } catch (error) {
+        throw error;
+    }
 }
 
 export const formatMessageTime = (timestamp: string | undefined) => {

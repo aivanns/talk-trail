@@ -13,6 +13,10 @@ export class SocketChatService {
   public connect(token: string | undefined) {
     if (!token) return;
 
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+
     this.socket = io(this.url, {
       extraHeaders: {
         Authorization: `Bearer ${token}`
@@ -25,25 +29,14 @@ export class SocketChatService {
   private setupListeners(): void {
     if (!this.socket) return;
 
-    this.socket.on('error', (error: Error) => {
-      console.error('Ошибка сокета:', error);
-    });
-
     this.socket.on('recieve-message', (message: SocketMessage) => {
-      console.log('SocketService: Получено новое сообщение:', message);
-      console.log('SocketService: Количество обработчиков:', this.messageHandlers.length);
       this.messageHandlers.forEach(handler => {
-        console.log('SocketService: Вызываем обработчик');
-        handler(message);
+        try {
+          handler(message);
+        } catch (error) {
+          console.error('Ошибка в обработчике сообщения:', error);
+        }
       });
-    });
-
-    this.socket.on('connect', () => {
-      console.log('Подключено к серверу');
-    });
-
-    this.socket.on('disconnect', () => {
-      console.log('Отключено от сервера');
     });
   }
 
