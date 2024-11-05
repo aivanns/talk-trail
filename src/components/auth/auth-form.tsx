@@ -6,6 +6,9 @@ import notificationService from "../../shared/utils/services/notificationService
 import { login } from "../../shared/utils/services/authService";
 import type { FormProps } from 'antd';
 import UnifiedAuthForm from "./unified-auth-form";
+import { ROUTES } from "../../shared/constants/routes";
+import { ERROR } from "../../shared/constants/notification";
+import { SUCCESS } from "../../shared/constants/notification";
 
 const AuthForm = () => {
   const navigate = useNavigate();
@@ -14,13 +17,13 @@ const AuthForm = () => {
     try {
       const { success, message } = await login(values.username, values.password);
       if (success) {
-        notificationService.success('Успех', message);
-        navigate('/chats');
+        notificationService.success(SUCCESS, message);
+        navigate(ROUTES.CHATS.ROOT);
       } else {
-        notificationService.error('Ошибка', message);
+        notificationService.error(ERROR, message);
       }
     } catch (error) {
-      notificationService.error('Ошибка', error as string);
+      notificationService.error(ERROR, error as string);
     }
   };
   

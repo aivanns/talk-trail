@@ -2,6 +2,7 @@ import { Chat } from "../../../types/chat";
 import avatar from '../../../assets/avatar.svg';
 import { useNavigate } from 'react-router-dom';
 import { formatMessageTime } from '../../../shared/utils/services/chatService';
+import { NO_MESSAGES } from "../../../shared/constants/chats";
 const ChatEntity = ({chat}: {chat: Chat}) => {
     const navigate = useNavigate();
     const user = chat.userChats[0].user;
@@ -23,7 +24,7 @@ const ChatEntity = ({chat}: {chat: Chat}) => {
                 <div className='flex flex-col items-start justify-start'>
                     <div className='ml-4'>{user.name}</div>
                     <div className='ml-4 text-sm text-gray-color'>
-                        {chat.messages[0]?.content || 'Нет сообщений'}
+                        {chat.messages[0]?.content || NO_MESSAGES}
                     </div>
                 </div>
             </div>
