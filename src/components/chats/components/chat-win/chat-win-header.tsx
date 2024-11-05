@@ -13,7 +13,6 @@ const ChatWinHeader = () => {
         if (uuid) {
             getCompanionInfo(uuid)
                 .then(response => setCompanionInfo(response))
-                .catch(error => console.error(error));
         }
     }, [uuid]);
 

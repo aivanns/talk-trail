@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getToken } from '../shared/utils/services/tokenService';
+import notificationService from '../shared/utils/services/notificationService';
 
 export const apiInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -13,8 +14,8 @@ export const getHeaders = () => ({
 apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 404) {
-            return new Promise(() => {});
+        if (error.response?.status) {
+            return new Promise(() => notificationService.error('Ошибка', error.response?.data?.message || 'Произошла ошибка'));
         }
         return Promise.reject(error);
     }

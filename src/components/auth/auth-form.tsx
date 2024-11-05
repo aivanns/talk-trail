@@ -8,19 +8,15 @@ import type { FormProps } from 'antd';
 import UnifiedAuthForm from "./unified-auth-form";
 import { ROUTES } from "../../shared/constants/routes";
 import { ERROR } from "../../shared/constants/notification";
-import { SUCCESS } from "../../shared/constants/notification";
 
 const AuthForm = () => {
   const navigate = useNavigate();
 
   const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
     try {
-      const { success, message } = await login(values.username, values.password);
+      const { success } = await login(values.username, values.password);
       if (success) {
-        notificationService.success(SUCCESS, message);
         navigate(ROUTES.CHATS.ROOT);
-      } else {
-        notificationService.error(ERROR, message);
       }
     } catch (error) {
       notificationService.error(ERROR, error as string);

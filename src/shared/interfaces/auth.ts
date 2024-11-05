@@ -9,5 +9,5 @@ export interface AuthResponse {
 
 export interface AuthReturn {
     success: boolean;
-    message: string;
+    message?: string;
 }
