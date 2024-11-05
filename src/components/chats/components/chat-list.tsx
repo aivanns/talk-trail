@@ -9,12 +9,18 @@ const ChatList = () => {
     useEffect(() => {
         getChats().then(data => {
             setChats(data);
-            console.log(data);
         });
     }, []);
     return (
-        <div>{chats.map((chat: Chat) => <ChatEntity chat={chat} />)}</div>
-    )
+        <div>
+            {chats.map((chat: Chat) => (
+                <ChatEntity 
+                    key={chat.uuid} 
+                    chat={chat}
+                />
+            ))}
+        </div>
+    );
 }
 
 export default ChatList;

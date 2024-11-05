@@ -21,7 +21,9 @@ const ChatEntity = ({chat}: {chat: Chat}) => {
             </div>
             <div className='flex flex-col items-start justify-start'>
                 <div className='ml-4'>{user.name}</div>
-                <div className='ml-4 text-sm text-gray-color'>{chat.messages[0]}</div>
+                <div className='ml-4 text-sm text-gray-color'>
+                    {chat.messages[0]?.content || 'Нет сообщений'}
+                </div>
             </div>
         </div>
     )
