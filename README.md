@@ -1,64 +1,73 @@
 # Talk Trail 🌐💬
 
-Welcome to **Talk Trail**, a modern chat application designed to facilitate seamless communication between users. This project leverages the power of React, TypeScript, and Tailwind CSS to create a responsive and user-friendly interface.
+Добро пожаловать в **Talk Trail** - современное чат-приложение, разработанное для обеспечения удобного общения между пользователями. Проект использует React, TypeScript и Tailwind CSS для создания отзывчивого и удобного интерфейса.
 
-## Features ✨
+## Возможности ✨
 
-- **Real-time Messaging**: Send and receive messages instantly.
-- **User Authentication**: Secure login and registration process.
-- **User Profiles**: Customize your avatar and display name.
-- **Chat History**: Keep track of your conversations.
+- **Мгновенные сообщения**: Отправка и получение сообщений в реальном времени
+- **Аутентификация**: Безопасный процесс входа и регистрации
+- **Профили пользователей**: Настройка аватара и отображаемого имени
+- **История чатов**: Сохранение всех ваших разговоров
 
-## Technologies Used 🛠️
+## Технологии 🛠️
 
-- **Frontend**: 
+- **Фронтенд**: 
   - React
   - TypeScript
   - Tailwind CSS
   - Ant Design
+  - Socket.IO
   - Dobry Cola Zero
 
-## Getting Started 🚀
+## Начало работы 🚀
 
-To get a local copy up and running, follow these steps:
+Чтобы запустить локальную копию проекта, выполните следующие шаги:
 
-1. **Clone the repository**:
+1. **Клонируйте репозиторий**:
    ```bash
    git clone https://github.com/aivanns/talk-trail-frontend.git
    ```
 
-2. **Navigate to the project directory**:
+2. **Перейдите в директорию проекта**:
    ```bash
    cd talk-trail-frontend
    ```
 
-3. **Install dependencies**:
+3. **Установите зависимости**:
    ```bash
    npm install
    ```
 
-4. **Run the application**:
+4. **Настройте переменные окружения**:
+   Создайте файл `.env` в корневой директории и добавьте:
+   ```env
+   VITE_API_URL=ваш_api_url
+   VITE_SOCKET_URL=ваш_socket_url
+   ```
+
+5. **Запустите приложение**:
    ```bash
    npm run dev
    ```
 
-5. **Open your browser** and go to `http://localhost:5173`.
+6. **Откройте браузер** и перейдите по адресу `http://localhost:5173`
 
-## Contributing 🤝
+## Участие в разработке 🤝
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**!
+Ваш вклад в развитие проекта очень важен для нас! Любая помощь приветствуется.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Сделайте форк проекта
+2. Создайте ветку для новой функции (`git checkout -b feature/НоваяФункция`)
+3. Зафиксируйте изменения (`git commit -m 'Добавлена новая функция'`)
+4. Отправьте изменения в репозиторий (`git push origin feature/НоваяФункция`)
+5. Создайте Pull Request
 
-## Acknowledgements 🙏
+## Используемые библиотеки 🙏
 
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Ant Design](https://ant.design/)
+- [Socket.IO](https://socket.io/)
 
-Feel free to reach out if you have any questions or suggestions! Happy coding! 💻
+Если у вас есть вопросы или предложения, не стесняйтесь обращаться! Удачного кодинга! 💻
