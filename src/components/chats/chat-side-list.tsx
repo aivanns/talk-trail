@@ -4,15 +4,29 @@ import { SEARCH_PLACEHOLDER } from "../../shared/constants/chats";
 import ChatList from './components/chat-list';
 import ChatUserSearch from './components/chat-user-search';
 import { searchUsers } from '../../shared/utils/services/searchService';
+import { useSocket } from '../../shared/contexts/SocketContext';
 
 const ChatSideList = () => {
     const [searchValue, setSearchValue] = useState('');
     const [users, setUsers] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
+    const { socket } = useSocket();
 
-    const clearSearch = () => {
-        setSearchValue('');
-        setUsers([]);
-    };
+    useEffect(() => {
+        const handleNewMessage = () => {
+            setUpdateTrigger(prev => prev + 1);
+        };
+
+        if (socket) {
+            socket.onMessage(handleNewMessage);
+        }
+
+        return () => {
+            if (socket) {
+                socket.offMessage(handleNewMessage);
+            }
+        };
+    }, [socket]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -38,7 +52,12 @@ const ChatSideList = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
             />
             <div className='w-[90%]'>
-                {searchValue ? <ChatUserSearch users={users} clearSearch={clearSearch} /> : <ChatList />}
+                {searchValue ? (
+                    <ChatUserSearch 
+                        users={users} 
+                        clearSearch={() => setSearchValue('')} 
+                    />
+                ) : <ChatList key={updateTrigger} />}
             </div>
         </div>
     )
