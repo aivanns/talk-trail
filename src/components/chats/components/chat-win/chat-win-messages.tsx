@@ -1,41 +1,66 @@
 import ChatMessage from "../chat-message";
-import avatar from "../../../../assets/avatar.svg";
 import { useParams } from 'react-router-dom';
-import { Message, User } from "../../../../shared/interfaces/chats";
-import { useState, useEffect } from "react";
+import { SocketMessage } from "../../../../shared/interfaces/chats";
+import { useState, useEffect, useRef } from "react";
 import { getMessages } from "../../../../shared/utils/services/chatService";
-
-const user: User = {
-    avatar: avatar,
-    name: 'John Doe',
-    uuid: '123',
-};
-
-const message: Message = {
-    uuid: '123',
-    content: 'random message',
-    createdAt: new Date("2024-11-05T10:14:11.626Z"),
-    updatedAt: new Date("2024-11-05T10:14:11.626Z"),
-    userUuid: '123',
-    chatUuid: '123',
-    user: user
-};
+import { useSocket } from "../../../../shared/contexts/SocketContext";
+import { SelfUser } from "../../../../shared/interfaces/user";
+import { getUser } from "../../../../shared/utils/services/userService";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
-    const [messages, setMessages] = useState<Message[]>([]);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [messages, setMessages] = useState<SocketMessage[]>([]);
+    const [currentUser, setCurrentUser] = useState<SelfUser | null>(null);
+    const { socket } = useSocket();
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
     useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    useEffect(() => {
+        getUser().then(data => {
+            setCurrentUser(data);
+        });
         getMessages(uuid!).then(data => {
             setMessages(data.messages);
         });
-    }, []);
+
+        const handleNewMessage = (message: SocketMessage) => {
+            if (message.chat.uuid === uuid) {
+                setMessages(prevMessages => {
+                    const messageExists = prevMessages.some(m => m.uuid === message.uuid);
+                    if (messageExists) {
+                        return prevMessages;
+                    }
+                    return [...prevMessages, message];
+                });
+            }
+        };
+
+        if (socket) {
+            socket.onMessage(handleNewMessage);
+        }
+
+        return () => {
+            if (socket) {
+                socket.offMessage(handleNewMessage);
+            }
+        };
+    }, [uuid, socket]);
+
     return (
-        <div className="flex flex-col items-start">
-            {messages.map((message: Message) => (
-                <ChatMessage key={message.uuid} {...message} />
+        <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">
+            {messages.map((message: SocketMessage) => (
+                <ChatMessage key={message.uuid} {...message} currentUser={currentUser!} />
             ))}
+            <div ref={messagesEndRef} />
         </div>
-    )
-}
+    );
+};
 
 export default ChatWinMessages;

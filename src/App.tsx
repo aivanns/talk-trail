@@ -7,11 +7,12 @@ import { Navigate } from 'react-router-dom'
 import ChatsPage from './pages/chats/chats-page'
 import ProtectedRoute from './shared/middleware/protected-route'
 import ChatWin from './components/chats/chat-win'
+import { SocketProvider } from './shared/contexts/SocketContext'
 
 function App() {
 
   return (
-    <>
+    <SocketProvider>
       <Routes>
         <Route path={ROUTES.ROOT} element={<Navigate to={ROUTES.AUTH.REGISTER} />} />
 
@@ -25,7 +26,7 @@ function App() {
           <Route path={ROUTES.CHATS.NESTED.CHAT} element={<ChatWin />} />
         </Route>
       </Routes>
-    </>
+    </SocketProvider>
   )
 }
 

@@ -1,5 +1,6 @@
 import avatar from '../../../assets/avatar.svg';
 import type { User } from '../../../types/chat';
+import { formatMessageTime } from '../../../shared/utils/services/chatService';
 
 const ChatSearchEntity = ({user}: {user: User}) => {
     return (
@@ -9,7 +10,7 @@ const ChatSearchEntity = ({user}: {user: User}) => {
                         <div className='ml-4'>{user.name}</div>
                         <div className='ml-4 text-sm text-gray-color'>{`@${user.username}`}</div>
                     </div>
-                    <div className='ml-auto mr-4 text-sm text-gray-color'>{user.lastTimeOnline ? user.lastTimeOnline : 'Offline'}</div>
+                    <div className='ml-auto mr-4 text-sm text-gray-color'>{user.lastTimeOnline ? formatMessageTime(user.lastTimeOnline) : 'null'}</div>
                 </div>
     )
 }

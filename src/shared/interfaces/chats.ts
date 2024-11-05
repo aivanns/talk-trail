@@ -18,3 +18,15 @@ export interface User {
   name: string
   uuid: string
 }
+
+export interface SocketMessage {
+    uuid: string
+    content: string
+    createdAt: string
+    user: User
+    chat: Chat
+  }
+  
+  export interface Chat {
+    uuid: string
+  }
