@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import notificationService from '../../../shared/utils/services/notificationService';
 import { ERROR } from '../../../shared/constants/notification';
 
-const ChatSearchEntity = ({user}: {user: User}) => {
+const ChatSearchEntity = ({user, clearSearch}: {user: User, clearSearch: () => void}) => {
     const navigate = useNavigate();
 
     const handleClick = async () => {
         try {
             const chat = await createOrGetChat(user.uuid);
+            clearSearch();
             navigate(`/chats/${chat.uuid}`);
         } catch (error) {
             notificationService.error(ERROR, 'Ошибка при создании чата');

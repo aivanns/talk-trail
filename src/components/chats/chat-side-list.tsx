@@ -9,6 +9,11 @@ const ChatSideList = () => {
     const [searchValue, setSearchValue] = useState('');
     const [users, setUsers] = useState([]);
 
+    const clearSearch = () => {
+        setSearchValue('');
+        setUsers([]);
+    };
+
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchValue) {
@@ -33,7 +38,7 @@ const ChatSideList = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
             />
             <div className='w-[90%]'>
-                {searchValue ? <ChatUserSearch users={users} /> : <ChatList />}
+                {searchValue ? <ChatUserSearch users={users} clearSearch={clearSearch} /> : <ChatList />}
             </div>
         </div>
     )
