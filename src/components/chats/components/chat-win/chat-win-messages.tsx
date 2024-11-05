@@ -16,14 +16,13 @@ const ChatWinMessages = () => {
     const [currentUser, setCurrentUser] = useState<SelfUser | null>(null);
     const { socket } = useSocket();
 
-    const scrollToBottom = () => {
+    useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+    }, [messages]);
 
     const handleNewMessage = (message: SocketMessage) => {
         if (message.chat.uuid === uuid) {
             setMessages(prevMessages => [...prevMessages, message]);
-            scrollToBottom();
         }
     };
 
@@ -50,7 +49,6 @@ const ChatWinMessages = () => {
             try {
                 const data = await getMessages(uuid);
                 setMessages(data.messages || []);
-                scrollToBottom();
             } catch (error: any) {
                 if (error.response?.status === 404) {
                     navigate('/chats');
