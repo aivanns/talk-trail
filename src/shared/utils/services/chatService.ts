@@ -1,5 +1,7 @@
 import { apiInstance, getHeaders } from "../../../api/global";
 import { Chat, UserChat } from "../../../types/chat";
+import { ROUTES } from "../../constants/routes";
+import { SocketMessage } from "../../interfaces/chats";
 
 export const getChats = async () => {
     const response = await apiInstance.get(`/chat/`, {headers: getHeaders()});
@@ -40,6 +42,19 @@ export const createOrGetChat = async (companionUuid: string) => {
     
     return await createChat(companionUuid);
 }
+
+export const loadMessages = async (uuid: string, setMessages: (messages: SocketMessage[]) => void, navigate: (path: string) => void) => {
+    if (!uuid) return;
+    
+    try {
+        const data = await getMessages(uuid);
+        setMessages(data.messages || []);
+    } catch (error: any) {
+        if (error.response?.status === 404) {
+            navigate(ROUTES.CHATS.ROOT);
+        }
+    }
+};
 
 export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading: (isLoading: boolean) => void, uuid: string) => {
     setIsLoading(true);

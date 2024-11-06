@@ -2,12 +2,11 @@ import ChatMessage from "../chat-message";
 import { useParams, useNavigate } from 'react-router-dom';
 import { SocketMessage } from "../../../../shared/interfaces/chats";
 import { useState, useEffect, useRef } from "react";
-import { getMessages } from "../../../../shared/utils/services/chatService";
+import { loadMessages } from "../../../../shared/utils/services/chatService";
 import { useSocket } from "../../../../shared/hooks/useSocket";
 import { SelfUser } from "../../../../shared/interfaces/user";
 import { getUser } from "../../../../shared/utils/services/userService";
 import { NO_MESSAGES_PLACEHOLDER } from "../../../../shared/constants/chats";
-import { ROUTES } from "../../../../shared/constants/routes";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
@@ -44,21 +43,8 @@ const ChatWinMessages = () => {
     }, [uuid, socket]);
 
     useEffect(() => {
-        const loadMessages = async () => {
-            if (!uuid) return;
-            
-            try {
-                const data = await getMessages(uuid);
-                setMessages(data.messages || []);
-            } catch (error: any) {
-                if (error.response?.status === 404) {
-                    navigate(ROUTES.CHATS.ROOT);
-                }
-            }
-        };
-
         setMessages([]);
-        loadMessages();
+        loadMessages(uuid!, setMessages, navigate);
     }, [uuid]);
 
     return (
