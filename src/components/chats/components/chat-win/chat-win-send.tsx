@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { SEND_PLACEHOLDER } from "../../../../shared/constants/chats";
-import { useSocket } from "../../../../shared/contexts/SocketContext";
+import { useSocket } from "../../../../shared/hooks/useSocket";
 import { useParams } from "react-router-dom";
 
 const ChatWinSend = () => {

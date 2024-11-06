@@ -4,11 +4,12 @@ import { SEARCH_PLACEHOLDER } from "../../shared/constants/chats";
 import ChatList from './components/chat-list';
 import ChatUserSearch from './components/chat-user-search';
 import { searchUsers } from '../../shared/utils/services/searchService';
-import { useSocket } from '../../shared/contexts/SocketContext';
+import { useSocket } from '../../shared/hooks/useSocket';
+import { User } from '../../types/chat';
 
 const ChatSideList = () => {
     const [searchValue, setSearchValue] = useState('');
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [_, setUpdateTrigger] = useState(0);
     const { socket } = useSocket();
 

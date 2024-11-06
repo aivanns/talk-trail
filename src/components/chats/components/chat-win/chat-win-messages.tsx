@@ -3,10 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { SocketMessage } from "../../../../shared/interfaces/chats";
 import { useState, useEffect, useRef } from "react";
 import { getMessages } from "../../../../shared/utils/services/chatService";
-import { useSocket } from "../../../../shared/contexts/SocketContext";
+import { useSocket } from "../../../../shared/hooks/useSocket";
 import { SelfUser } from "../../../../shared/interfaces/user";
 import { getUser } from "../../../../shared/utils/services/userService";
 import { NO_MESSAGES_PLACEHOLDER } from "../../../../shared/constants/chats";
+import { ROUTES } from "../../../../shared/constants/routes";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
@@ -51,7 +52,7 @@ const ChatWinMessages = () => {
                 setMessages(data.messages || []);
             } catch (error: any) {
                 if (error.response?.status === 404) {
-                    navigate('/chats');
+                    navigate(ROUTES.CHATS.ROOT);
                 }
             }
         };

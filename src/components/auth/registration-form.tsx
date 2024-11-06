@@ -1,7 +1,7 @@
 import '../../index.css'
 import type { FormProps } from 'antd';
 import { Button, Form, Input} from 'antd';
-import { RegistrationFieldType } from '../../types/auth';
+import { LoginFieldType, RegistrationFieldType } from '../../types/auth';
 import { CONFIRM_PASSWORD, HAVE_ACCOUNT, LOGIN, MUST_BE_PASSWORD, MUST_BE_USERNAME, PASSWORD, PASSWORD_LESS_MIN, PASSWORDS_NOT_MATCH, REGISTER, USERNAME } from '../../shared/constants/auth';
 import notificationService from '../../shared/utils/services/notificationService';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,20 +12,19 @@ import { ERROR } from '../../shared/constants/notification';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
-  const onFinish: FormProps<RegistrationFieldType>['onFinish'] = async (values) => {
+  const onFinish: FormProps<RegistrationFieldType | LoginFieldType>['onFinish'] = async (values) => {
     
     try {
       const { success } = await register(values.username, values.password, values.username);
       if (success) {
         navigate(ROUTES.CHATS.ROOT);
-      } else {
       }
     } catch (error) {
-      notificationService.error(ERROR, (error as any).message as string);
+      notificationService.error(ERROR, (error as Error).message);
     }
   };
   
-  const onFinishFailed: FormProps<RegistrationFieldType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<RegistrationFieldType | LoginFieldType>['onFinishFailed'] = (errorInfo) => {
     notificationService.errorWithMany(errorInfo);
   };
 

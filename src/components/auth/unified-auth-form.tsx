@@ -1,6 +1,7 @@
 import { Form, FormProps } from "antd";
+import { RegistrationFieldType, LoginFieldType } from "../../types/auth";
 
-const UnifiedAuthForm = ({onFinish, onFinishFailed, children}: {onFinish: FormProps<any>['onFinish'], onFinishFailed: FormProps<any>['onFinishFailed'], children: React.ReactNode}): JSX.Element => {
+const UnifiedAuthForm = ({onFinish, onFinishFailed, children}: {onFinish: FormProps<RegistrationFieldType | LoginFieldType>['onFinish'], onFinishFailed: FormProps<RegistrationFieldType | LoginFieldType>['onFinishFailed'], children: React.ReactNode}): JSX.Element => {
     return (
       <Form
         className='auth-form'

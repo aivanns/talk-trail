@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { SocketChatService } from '../utils/socket-io/socketChatService';
 import { SocketContextType } from '../interfaces/socket';
 
-const SocketContext = createContext<SocketContextType>({ socket: null });
+export const SocketContext = createContext<SocketContextType>({ socket: null });
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<SocketChatService | null>(null);
@@ -23,6 +23,4 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </SocketContext.Provider>
   );
-};
-
-export const useSocket = () => useContext(SocketContext); 
+}; 

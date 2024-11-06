@@ -4,7 +4,7 @@ import { SelfUser } from '../../../shared/interfaces/user';
 
 const ChatMessage = ({ content, createdAt, user, currentUser }: SocketMessage & {currentUser: SelfUser}) => {
     const isLastInSequence = true;
-    const formattedTime = formatMessageTime(new Date(createdAt).toISOString());
+    const formattedTime = formatMessageTime(new Date(createdAt));
     const isUser = user.uuid === currentUser.uuid;
 
     const messageColor = isUser ? 'bg-main-3' : 'bg-main-2';

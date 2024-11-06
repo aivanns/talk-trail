@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSocket } from "../../shared/contexts/SocketContext";
+import { useSocket } from "../../shared/hooks/useSocket";
 import { getToken } from "../../shared/utils/services/tokenService";
 import ChatSidebar from "../../components/chats/chat-sidebar";
 import ChatSideList from "../../components/chats/chat-side-list";

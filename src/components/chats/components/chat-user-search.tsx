@@ -1,7 +1,7 @@
 import { User } from "../../../types/chat";
 import ChatSearchEntity from "./chat-search-entity";
 
-const ChatUserSearch = ({ users, clearSearch }: { users: any[], clearSearch: () => void }) => {
+const ChatUserSearch = ({ users, clearSearch }: { users: User[], clearSearch: () => void }) => {
     return (
         <div className="max-h-[80dvh] overflow-y-auto scrollbar-hide rounded-b-md">
             {users.map((user: User) => (

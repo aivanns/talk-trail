@@ -14,7 +14,7 @@ export interface Message {
 }
 
 export interface User {
-  avatar: any
+  avatar: string
   name: string
   uuid: string
 }

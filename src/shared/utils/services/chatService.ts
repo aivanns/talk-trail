@@ -29,23 +29,44 @@ export const deleteChat = async (chatUuid: string) => {
 }
 
 export const createOrGetChat = async (companionUuid: string) => {
-    try {
-        const chats = await getChats();
-        const existingChat = chats.find((chat: Chat) => 
-            chat.userChats.some((userChat: UserChat) => userChat.user.uuid === companionUuid)
-        );
-        
-        if (existingChat) {
-            return existingChat;
-        }
-        
-        return await createChat(companionUuid);
-    } catch (error) {
-        throw error;
+    const chats = await getChats();
+    const existingChat = chats.find((chat: Chat) => 
+        chat.userChats.some((userChat: UserChat) => userChat.user.uuid === companionUuid)
+    );
+    
+    if (existingChat) {
+        return existingChat;
     }
+    
+    return await createChat(companionUuid);
 }
 
-export const formatMessageTime = (timestamp: string | undefined) => {
+export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading: (isLoading: boolean) => void, uuid: string) => {
+    setIsLoading(true);
+    try {
+        const data = await getChats();
+        const filteredChats = data
+            .filter((chat: Chat) => {
+                return chat.messages.length > 0 || chat.uuid === uuid;
+            })
+            .sort((a: Chat, b: Chat) => {
+                const lastMessageA = a.messages[a.messages.length - 1];
+                const lastMessageB = b.messages[b.messages.length - 1];
+                
+                if (!lastMessageA) return 1;
+                if (!lastMessageB) return -1;
+                
+                return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
+            });
+        setChats(filteredChats);
+    } catch (error) {
+        console.error('Ошибка при получении чатов:', error);
+    } finally {
+        setIsLoading(false);
+    }
+};
+
+export const formatMessageTime = (timestamp: Date | undefined) => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     
     if (!timestamp) return '';
@@ -63,7 +84,7 @@ const getTimeString = (value: number, forms: [string, string, string]): string =
     return `${value} ${forms[2]}`;
 }
 
-export const formatTimeAgo = (timestamp: string | undefined) => {
+export const formatTimeAgo = (timestamp: Date | undefined) => {
     if (!timestamp) return '';
     
     const diffMinutes = Math.floor((Date.now() - new Date(timestamp).getTime()) / 60000);
