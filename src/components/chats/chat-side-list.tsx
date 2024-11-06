@@ -9,7 +9,7 @@ import { useSocket } from '../../shared/contexts/SocketContext';
 const ChatSideList = () => {
     const [searchValue, setSearchValue] = useState('');
     const [users, setUsers] = useState([]);
-    const [updateTrigger, setUpdateTrigger] = useState(0);
+    const [_, setUpdateTrigger] = useState(0);
     const { socket } = useSocket();
 
     useEffect(() => {
