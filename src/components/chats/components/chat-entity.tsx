@@ -1,9 +1,11 @@
+import React from "react";
 import { Chat } from "../../../types/chat";
 import avatar from '../../../assets/avatar.svg';
 import { useNavigate } from 'react-router-dom';
 import { formatMessageTime } from '../../../shared/utils/services/chatService';
 import { NO_MESSAGES } from "../../../shared/constants/chats";
-const ChatEntity = ({chat, isActive}: {chat: Chat, isActive: boolean}) => {
+
+const ChatEntity = React.memo(({ chat, isActive }: { chat: Chat, isActive: boolean }) => {
     const navigate = useNavigate();
     const user = chat.userChats[0].user;
 
@@ -13,7 +15,6 @@ const ChatEntity = ({chat, isActive}: {chat: Chat, isActive: boolean}) => {
 
     return (
         <div 
-            key={chat.uuid} 
             className={`flex flex-row items-center justify-between rounded-xl w-full h-16 mt-4 hover:bg-main-3 transition-colors duration-150 cursor-pointer ${isActive ? 'bg-main-3' : 'bg-main-2'}`}
             onClick={handleClick}
         >
@@ -35,6 +36,6 @@ const ChatEntity = ({chat, isActive}: {chat: Chat, isActive: boolean}) => {
             </div>
         </div>
     )
-}
+});
 
 export default ChatEntity;

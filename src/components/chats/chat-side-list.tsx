@@ -57,7 +57,7 @@ const ChatSideList = () => {
                         users={users} 
                         clearSearch={() => setSearchValue('')} 
                     />
-                ) : <ChatList key={updateTrigger} />}
+                ) : <ChatList />}
             </div>
         </div>
     )

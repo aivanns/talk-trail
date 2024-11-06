@@ -8,32 +8,38 @@ import { useSocket } from "../../../shared/contexts/SocketContext";
 
 const ChatList = () => {
     const [chats, setChats] = useState<Chats>([]);
-    const [updateTrigger, setUpdateTrigger] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const { uuid } = useParams();
     const { socket } = useSocket();
     
     const loadChats = async () => {
-        const data = await getChats();
-        const filteredChats = data
-            .filter((chat: Chat) => {
-                return chat.messages.length > 0 || chat.uuid === uuid;
-            })
-            .sort((a: Chat, b: Chat) => {
-                const lastMessageA = a.messages[a.messages.length - 1];
-                const lastMessageB = b.messages[b.messages.length - 1];
-                
-                if (!lastMessageA) return 1;
-                if (!lastMessageB) return -1;
-                
-                return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
-            });
-        setChats(filteredChats);
-        setUpdateTrigger(prev => prev + 1);
+        setIsLoading(true);
+        try {
+            const data = await getChats();
+            const filteredChats = data
+                .filter((chat: Chat) => {
+                    return chat.messages.length > 0 || chat.uuid === uuid;
+                })
+                .sort((a: Chat, b: Chat) => {
+                    const lastMessageA = a.messages[a.messages.length - 1];
+                    const lastMessageB = b.messages[b.messages.length - 1];
+                    
+                    if (!lastMessageA) return 1;
+                    if (!lastMessageB) return -1;
+                    
+                    return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
+                });
+            setChats(filteredChats);
+        } catch (error) {
+            console.error('Ошибка при получении чатов:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
         loadChats();
-    }, [uuid, updateTrigger]);
+    }, [uuid]);
 
     useEffect(() => {
         if (socket) {
