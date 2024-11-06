@@ -3,7 +3,7 @@ import type { User } from '../../../types/chat';
 import { formatMessageTime, createOrGetChat } from '../../../shared/utils/services/chatService';
 import { useNavigate } from 'react-router-dom';
 import notificationService from '../../../shared/utils/services/notificationService';
-import { ERROR } from '../../../shared/constants/notification';
+import { ERROR, ERROR_WHILE_CHAT_CREATION } from '../../../shared/constants/notification';
 
 const ChatSearchEntity = ({user, clearSearch}: {user: User, clearSearch: () => void}) => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const ChatSearchEntity = ({user, clearSearch}: {user: User, clearSearch: () => v
             navigate(`/chats/${chat.uuid}`);
             window.location.reload();
         } catch (error) {
-            notificationService.error(ERROR, 'Ошибка при создании чата');
+            notificationService.error(ERROR, ERROR_WHILE_CHAT_CREATION);
         }
     };
 

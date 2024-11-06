@@ -1,25 +1,15 @@
 import { Outlet, Navigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import logo from "../../assets/logo.svg"
-import { isAuthenticated } from "../../shared/utils/services/tokenService"
 import { ROUTES } from "../../shared/constants/routes"
+import { checkAuth } from "../../shared/utils/services/authService"
 
 const AuthPage = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const authStatus = await isAuthenticated();
-                setIsAuth(authStatus);
-                setIsLoading(false);
-            } catch (error) {
-                setIsLoading(false);
-            }
-        };
-        
-        checkAuth();
+        checkAuth(setIsAuth, setIsLoading);
     }, []);
 
     if (isAuth && !isLoading) {

@@ -1,32 +1,34 @@
+import { Message } from "../shared/interfaces/chats"
+
 export type Chats = Chat[]
 
 export interface Chat {
   uuid: string
-  messages: any[]
+  messages: Message[]
   userChats: UserChat[]
 }
 
 export interface UserChat {
   userUuid: string
   chatUuid: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
   user: User
 }
 
 export interface User {
-  avatar: any
-  description: any
-  lastTimeOnline: any
+  avatar: string
+  description: string
+  lastTimeOnline: Date
   name: string
   username: string
   uuid: string
 }
 
 export interface CompanionInfo {
-  avatar: any
-  description: any
-  lastTimeOnline: string
+  avatar: string
+  description: string
+  lastTimeOnline: Date
   name: string
   username: string
   uuid: string

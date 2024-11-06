@@ -1,9 +1,9 @@
 export interface SelfUser {
-    avatar: any
-    description: any
+    avatar: string
+    description: string
     lastTimeOnline: string
     name: string
-    folders: any[]
+    folders: string[]
     username: string
     uuid: string
     isOnline: boolean
