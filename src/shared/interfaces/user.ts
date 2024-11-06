@@ -1,7 +1,7 @@
 export interface SelfUser {
     avatar: string
     description: string
-    lastTimeOnline: string
+    lastTimeOnline: Date
     name: string
     folders: string[]
     username: string

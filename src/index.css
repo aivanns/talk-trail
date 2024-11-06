@@ -56,6 +56,24 @@ body {
     @apply text-text-color opacity-50;
 }
 
+/* User modal */
+
+.user-modal .ant-modal-content {
+    @apply bg-main-2;
+}
+
+.user-modal .ant-modal-header {
+    @apply bg-main-2;
+}
+
+.user-modal .ant-modal-title {
+    @apply text-text-color;
+}
+
+.user-modal .ant-modal-body {
+    @apply text-text-color;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
