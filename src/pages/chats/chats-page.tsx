@@ -10,10 +10,19 @@ const ChatsPage = () => {
     const { socket } = useSocket();
     const location = useLocation();
     const isMainPage = location.pathname.split('/').filter(Boolean).length === 1;
+    const searchParams = new URLSearchParams(location.search);
+    const needReconnect = searchParams.get('reconnect') === 'true';
 
     useEffect(() => {
-        socketConnect(socket);
-    }, [socket]);
+        if (needReconnect) {
+            console.log('Принудительное переподключение сокета');
+            socketConnect(socket);
+            // Убираем параметр reconnect из URL
+            window.history.replaceState({}, '', location.pathname);
+        } else {
+            socketConnect(socket);
+        }
+    }, [socket, needReconnect]);
 
     return (
         <div className="flex min-h-screen min-w-max bg-main-2 text-text-color">

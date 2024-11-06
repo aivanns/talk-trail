@@ -21,8 +21,21 @@ const ChatWinMessages = () => {
     }, [messages]);
 
     const handleNewMessage = (message: SocketMessage) => {
+        console.log('Получено новое сообщение в чате:', {
+            messageUuid: message.uuid,
+            messageChatUuid: message.chat.uuid,
+            currentChatUuid: uuid,
+            isMatch: message.chat.uuid === uuid
+        });
+        
         if (message.chat.uuid === uuid) {
-            setMessages(prevMessages => [...prevMessages, message]);
+            setMessages(prevMessages => {
+                console.log('Обновление сообщений:', {
+                    prevCount: prevMessages.length,
+                    newMessage: message
+                });
+                return [...prevMessages, message];
+            });
         }
     };
 
@@ -32,17 +45,20 @@ const ChatWinMessages = () => {
         });
 
         if (socket) {
+            console.log('Подписываемся на сообщения для чата:', uuid);
             socket.onMessage(handleNewMessage);
         }
 
         return () => {
             if (socket) {
+                console.log('Отписываемся от сообщений для чата:', uuid);
                 socket.offMessage(handleNewMessage);
             }
         };
     }, [uuid, socket]);
 
     useEffect(() => {
+        console.log('Загружаем сообщения для чата:', uuid);
         setMessages([]);
         loadMessages(uuid!, setMessages, navigate);
     }, [uuid]);

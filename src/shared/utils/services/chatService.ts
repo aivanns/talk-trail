@@ -74,8 +74,10 @@ export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading:
                 return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
             });
         setChats(filteredChats);
+        return filteredChats;
     } catch (error) {
         console.error('Ошибка при получении чатов:', error);
+        throw error;
     } finally {
         setIsLoading(false);
     }

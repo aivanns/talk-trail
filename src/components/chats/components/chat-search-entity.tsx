@@ -4,9 +4,10 @@ import { formatMessageTime, createOrGetChat } from '../../../shared/utils/servic
 import { useNavigate } from 'react-router-dom';
 import notificationService from '../../../shared/utils/services/notificationService';
 import { ERROR, ERROR_WHILE_CHAT_CREATION } from '../../../shared/constants/notification';
-
+import { useSocket } from '../../../shared/hooks/useSocket';
 const ChatSearchEntity = ({user, clearSearch}: {user: User, clearSearch: () => void}) => {
     const navigate = useNavigate();
+    const { socket } = useSocket();
 
     const handleClick = async () => {
         try {

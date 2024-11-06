@@ -21,11 +21,21 @@ const ChatList = () => {
     useEffect(() => {
         if (socket) {
             const handleNewMessage = () => {
+                console.log('Получено новое сообщение');
                 loadChats(setChats, setIsLoading, uuid!);
             };
             
-            const handleChatCreated = () => {
-                loadChats(setChats, setIsLoading, uuid!);
+            const handleChatCreated = async (data: any) => {
+                try {
+                    console.log('Создан новый чат');
+                    setIsLoading(true);
+                    const chats = await loadChats(setChats, setIsLoading, uuid!);
+                    console.log('Получены новые чаты:', chats);
+                } catch (error) {
+                    console.error('Ошибка загрузки чатов:', error);
+                } finally {
+                    setIsLoading(false);
+                }
             };
 
             socket.onMessage(handleNewMessage);
@@ -36,11 +46,15 @@ const ChatList = () => {
                 socket.offChatCreated(handleChatCreated);
             };
         }
-    }, [socket, uuid]);
+    }, [socket, uuid, chats]);
+
+    useEffect(() => {
+        console.log('Чаты обновились:', chats);
+    }, [chats]);
 
     return (
         <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">
-            {chats.map((chat: Chat) => (
+            {Array.isArray(chats) && chats.map((chat: Chat) => (
                 <ChatEntity 
                     key={chat.uuid} 
                     chat={chat} 
