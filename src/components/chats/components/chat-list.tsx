@@ -8,7 +8,7 @@ import { useSocket } from "../../../shared/contexts/SocketContext";
 
 const ChatList = () => {
     const [chats, setChats] = useState<Chats>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [_, setIsLoading] = useState(false);
     const { uuid } = useParams();
     const { socket } = useSocket();
     
