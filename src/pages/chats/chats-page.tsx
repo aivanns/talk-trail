@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSocket } from "../../shared/hooks/useSocket";
-import { getToken } from "../../shared/utils/services/tokenService";
+import { socketConnect } from "../../shared/utils/socket-io/socketConnectService";
 import ChatSidebar from "../../components/chats/chat-sidebar";
 import ChatSideList from "../../components/chats/chat-side-list";
 import { Outlet, useLocation } from "react-router-dom";
@@ -12,16 +12,7 @@ const ChatsPage = () => {
     const isMainPage = location.pathname.split('/').filter(Boolean).length === 1;
 
     useEffect(() => {
-        if (socket) {
-            const token = getToken();
-            socket.connect(token);
-        }
-        
-        return () => {
-            if (socket) {
-                socket.disconnect();
-            }
-        };
+        socketConnect(socket);
     }, [socket]);
 
     return (
