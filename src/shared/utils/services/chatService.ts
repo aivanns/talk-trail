@@ -81,6 +81,20 @@ export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading:
     }
 };
 
+export const groupMessagesByDate = (messages: SocketMessage[]) => {
+    const groups: { [key: string]: SocketMessage[] } = {};
+    
+    messages.forEach(message => {
+        const date = new Date(message.createdAt).toLocaleDateString('ru-RU');
+        if (!groups[date]) {
+            groups[date] = [];
+        }
+        groups[date].push(message);
+    });
+    
+    return groups;
+};
+
 export const formatMessageTime = (timestamp: Date | undefined) => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     

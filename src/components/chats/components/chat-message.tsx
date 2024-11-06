@@ -22,8 +22,8 @@ const ChatMessage = ({ content, createdAt, user, currentUser }: SocketMessage & 
                 </div>
             ) : <div className="w-10 mr-4"></div>}
             
-            <div className="flex flex-col w-full">
-                <div className={`${messageColor} rounded-lg py-2 px-3 max-w-2xl w-full break-words relative`}>
+            <div className="flex flex-col">
+                <div className={`${messageColor} rounded-lg py-2 px-3 max-w-2xl inline-block break-words relative`}>
                     <span className="text-sm text-text-color pr-12">{content}</span>
                     <span className="text-xs text-text-color absolute bottom-2 right-3">
                         {formattedTime}
