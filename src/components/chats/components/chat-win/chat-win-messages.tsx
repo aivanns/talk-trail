@@ -2,12 +2,11 @@ import ChatMessage from "../chat-message";
 import { useParams, useNavigate } from 'react-router-dom';
 import { SocketMessage } from "../../../../shared/interfaces/chats";
 import { useState, useEffect, useRef } from "react";
-import { getMessages } from "../../../../shared/utils/services/chatService";
+import { groupMessagesByDate, loadMessages } from "../../../../shared/utils/services/chatService";
 import { useSocket } from "../../../../shared/hooks/useSocket";
 import { SelfUser } from "../../../../shared/interfaces/user";
 import { getUser } from "../../../../shared/utils/services/userService";
 import { NO_MESSAGES_PLACEHOLDER } from "../../../../shared/constants/chats";
-import { ROUTES } from "../../../../shared/constants/routes";
 
 const ChatWinMessages = () => {
     const { uuid } = useParams();
@@ -18,7 +17,7 @@ const ChatWinMessages = () => {
     const { socket } = useSocket();
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
     }, [messages]);
 
     const handleNewMessage = (message: SocketMessage) => {
@@ -44,22 +43,10 @@ const ChatWinMessages = () => {
     }, [uuid, socket]);
 
     useEffect(() => {
-        const loadMessages = async () => {
-            if (!uuid) return;
-            
-            try {
-                const data = await getMessages(uuid);
-                setMessages(data.messages || []);
-            } catch (error: any) {
-                if (error.response?.status === 404) {
-                    navigate(ROUTES.CHATS.ROOT);
-                }
-            }
-        };
-
         setMessages([]);
-        loadMessages();
+        loadMessages(uuid!, setMessages, navigate);
     }, [uuid]);
+
 
     return (
         <div className="flex flex-col items-start h-full overflow-y-auto scrollbar-hide">
@@ -68,8 +55,17 @@ const ChatWinMessages = () => {
                     <p className="text-text-color bg-main-2 px-3 py-2 rounded-xl text-center">{NO_MESSAGES_PLACEHOLDER}</p>
                 </div>
             ) : (
-                messages.map((message: SocketMessage) => (
-                    <ChatMessage key={message.uuid} {...message} currentUser={currentUser!} />
+                Object.entries(groupMessagesByDate(messages)).map(([date, dateMessages]) => (
+                    <div key={date} className="w-full">
+                        <div className="flex justify-center my-4">
+                            <span className="bg-main-2 text-text-color px-3 py-1 rounded-xl text-sm">
+                                {date}
+                            </span>
+                        </div>
+                        {dateMessages.map((message: SocketMessage) => (
+                            <ChatMessage key={message.uuid} {...message} currentUser={currentUser!} />
+                        ))}
+                    </div>
                 ))
             )}
             <div ref={messagesEndRef} />

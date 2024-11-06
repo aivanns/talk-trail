@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { SocketChatService } from '../utils/socket-io/socketChatService';
-import { SocketContextType } from '../interfaces/socket';
+import { SocketContextType } from '../interfaces/hooks';
 
 export const SocketContext = createContext<SocketContextType>({ socket: null });
 

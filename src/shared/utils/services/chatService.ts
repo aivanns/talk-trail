@@ -1,5 +1,7 @@
 import { apiInstance, getHeaders } from "../../../api/global";
 import { Chat, UserChat } from "../../../types/chat";
+import { ROUTES } from "../../constants/routes";
+import { SocketMessage } from "../../interfaces/chats";
 
 export const getChats = async () => {
     const response = await apiInstance.get(`/chat/`, {headers: getHeaders()});
@@ -41,6 +43,19 @@ export const createOrGetChat = async (companionUuid: string) => {
     return await createChat(companionUuid);
 }
 
+export const loadMessages = async (uuid: string, setMessages: (messages: SocketMessage[]) => void, navigate: (path: string) => void) => {
+    if (!uuid) return;
+    
+    try {
+        const data = await getMessages(uuid);
+        setMessages(data.messages || []);
+    } catch (error: any) {
+        if (error.response?.status === 404) {
+            navigate(ROUTES.CHATS.ROOT);
+        }
+    }
+};
+
 export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading: (isLoading: boolean) => void, uuid: string) => {
     setIsLoading(true);
     try {
@@ -66,6 +81,20 @@ export const loadChats = async (setChats: (chats: Chat[]) => void, setIsLoading:
     }
 };
 
+export const groupMessagesByDate = (messages: SocketMessage[]) => {
+    const groups: { [key: string]: SocketMessage[] } = {};
+    
+    messages.forEach(message => {
+        const date = new Date(message.createdAt).toLocaleDateString('ru-RU');
+        if (!groups[date]) {
+            groups[date] = [];
+        }
+        groups[date].push(message);
+    });
+    
+    return groups;
+};
+
 export const formatMessageTime = (timestamp: Date | undefined) => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     
@@ -87,17 +116,31 @@ const getTimeString = (value: number, forms: [string, string, string]): string =
 export const formatTimeAgo = (timestamp: Date | undefined) => {
     if (!timestamp) return '';
     
-    const diffMinutes = Math.floor((Date.now() - new Date(timestamp).getTime()) / 60000);
+    const now = new Date();
+    const date = new Date(timestamp);
+    const diffMinutes = Math.floor((now.getTime() - date.getTime()) / 60000);
     const hours = Math.floor(diffMinutes / 60);
+    const days = Math.floor(hours / 24);
     
+    const isToday = now.getDate() === date.getDate() && 
+                    now.getMonth() === date.getMonth() && 
+                    now.getFullYear() === date.getFullYear();
+                    
     if (diffMinutes < 1) return 'был в сети только что';
     
-    if (hours >= 8) {
-        const days = Math.floor(hours / 24);
+    if (!isToday) {
         const time = formatMessageTime(timestamp);
+        const isYesterday = new Date(now.setDate(now.getDate() - 1)).getDate() === date.getDate();
         
-        if (days === 0) return `был в сети в ${time}`;
-        return `был в сети в ${time}, ${getTimeString(days, ['день', 'дня', 'дней'])} назад`;
+        if (isYesterday) {
+            return `был в сети вчера в ${time}`;
+        }
+        
+        if (days === 1) {
+            return `был в сети день назад в ${time}`;
+        }
+        
+        return `был в сети ${getTimeString(days, ['день', 'дня', 'дней'])} назад в ${time}`;
     }
     
     if (hours >= 1) {

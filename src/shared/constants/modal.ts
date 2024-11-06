@@ -1,0 +1,1 @@
+export const USER_MODAL_TITLE = "О пользователе";
