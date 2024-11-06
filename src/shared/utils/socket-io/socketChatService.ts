@@ -4,6 +4,7 @@ import { SocketMessage } from '../../interfaces/chats';
 export class SocketChatService {
   private socket: Socket | null = null;
   private messageHandlers: ((message: SocketMessage) => void)[] = [];
+  private chatCreatedHandlers: ((chatUuid: string) => void)[] = [];
   private url: string;
   
   constructor(url: string) {
@@ -38,6 +39,16 @@ export class SocketChatService {
         }
       });
     });
+
+    this.socket.on('chat-created', (chatUuid: string) => {
+      this.chatCreatedHandlers.forEach(handler => {
+        try {
+          handler(chatUuid);
+        } catch (error) {
+          console.error('Ошибка в обработчике создания чата:', error);
+        }
+      });
+    });
   }
 
   public sendMessage(message: { chatUuid: string; content: string }): void {
@@ -51,9 +62,18 @@ export class SocketChatService {
   public offMessage(handler: (message: SocketMessage) => void): void {
     this.messageHandlers = this.messageHandlers.filter(h => h !== handler);
   }
-  
+
+  public onChatCreated(handler: (chatUuid: string) => void): void {
+    this.chatCreatedHandlers.push(handler);
+  }
+
+  public offChatCreated(handler: (chatUuid: string) => void): void {
+    this.chatCreatedHandlers = this.chatCreatedHandlers.filter(h => h !== handler);
+  }
+
   public disconnect(): void {
     this.messageHandlers = [];
+    this.chatCreatedHandlers = [];
     this.socket?.disconnect();
     this.socket = null;
   }
