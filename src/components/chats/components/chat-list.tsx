@@ -8,6 +8,7 @@ import { useSocket } from "../../../shared/contexts/SocketContext";
 
 const ChatList = () => {
     const [chats, setChats] = useState<Chats>([]);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
     const { uuid } = useParams();
     const { socket } = useSocket();
     
@@ -27,21 +28,29 @@ const ChatList = () => {
                 return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
             });
         setChats(filteredChats);
+        setUpdateTrigger(prev => prev + 1);
     };
 
     useEffect(() => {
         loadChats();
-    }, [uuid]);
+    }, [uuid, updateTrigger]);
 
     useEffect(() => {
         if (socket) {
             const handleNewMessage = () => {
                 loadChats();
             };
+            
+            const handleChatCreated = () => {
+                loadChats();
+            };
 
             socket.onMessage(handleNewMessage);
+            socket.onChatCreated(handleChatCreated);
+            
             return () => {
                 socket.offMessage(handleNewMessage);
+                socket.offChatCreated(handleChatCreated);
             };
         }
     }, [socket, uuid]);
