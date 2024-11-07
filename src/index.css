@@ -56,6 +56,8 @@ body {
     @apply text-text-color opacity-50;
 }
 
+
+/* Modals */
 /* User modal */
 
 .user-modal .ant-modal-content {
@@ -71,6 +73,24 @@ body {
 }
 
 .user-modal .ant-modal-body {
+    @apply text-text-color;
+}
+
+/* Settings modal */
+
+.settings-modal .ant-modal-content {
+    @apply bg-main-2;
+}
+
+.settings-modal .ant-modal-header {
+    @apply bg-main-2;
+}
+
+.settings-modal .ant-modal-title {
+    @apply text-text-color;
+}
+
+.settings-modal .ant-modal-body {
     @apply text-text-color;
 }
 
