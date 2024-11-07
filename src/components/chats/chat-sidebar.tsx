@@ -2,12 +2,12 @@ import { FaCog } from "react-icons/fa";
 import avatar from '../../assets/avatar.svg';
 import { useEffect, useState } from "react";
 import UserSelfModal from "./components/user-modal/self/user-self-modal";
-import { SelfUser } from "../../shared/interfaces/user";
+import { UserInfo } from "../../shared/interfaces/user";
 import { getSelfUser } from "../../shared/utils/services/modalService";
 
 const ChatSidebar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [user, setUser] = useState<SelfUser | null>(null);
+    const [user, setUser] = useState<UserInfo | null>(null);
 
     const openModal = () => {
         setIsModalOpen(true);

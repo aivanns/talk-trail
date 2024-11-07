@@ -2,12 +2,12 @@ import { Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Separator from "../components/separator";
 import { USER_MODAL_TITLE } from "../../../../../shared/constants/modal";
-import { UserInfo } from "../../../../../shared/interfaces/user";
 import avatar from "../../../../../assets/avatar.svg";
 import { formatTimeAgo } from "../../../../../shared/utils/services/chatService";
 import { FaInfoCircle } from "react-icons/fa";
+import { CompanionInfo } from "../../../../../types/chat";
 
-const UserSelfModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: UserInfo, closeModal: () => void }) => {
+const UserOtherModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: CompanionInfo, closeModal: () => void }) => {
 
     return (
         <Modal
@@ -43,4 +43,4 @@ const UserSelfModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: Us
     );
 };
 
-export default UserSelfModal;
+export default UserOtherModal;
