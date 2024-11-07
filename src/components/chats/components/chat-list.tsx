@@ -25,7 +25,7 @@ const ChatList = () => {
                 loadChats(setChats, setIsLoading, uuid!);
             };
             
-            const handleChatCreated = async (data: any) => {
+            const handleChatCreated = async () => {
                 try {
                     console.log('Создан новый чат');
                     setIsLoading(true);

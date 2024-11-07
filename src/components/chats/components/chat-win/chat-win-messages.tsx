@@ -4,7 +4,7 @@ import { SocketMessage } from "../../../../shared/interfaces/chats";
 import { useState, useEffect, useRef } from "react";
 import { groupMessagesByDate, loadMessages } from "../../../../shared/utils/services/chatService";
 import { useSocket } from "../../../../shared/hooks/useSocket";
-import { SelfUser } from "../../../../shared/interfaces/user";
+import { UserInfo } from "../../../../shared/interfaces/user";
 import { getUser } from "../../../../shared/utils/services/userService";
 import { NO_MESSAGES_PLACEHOLDER } from "../../../../shared/constants/chats";
 
@@ -13,7 +13,7 @@ const ChatWinMessages = () => {
     const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [messages, setMessages] = useState<SocketMessage[]>([]);
-    const [currentUser, setCurrentUser] = useState<SelfUser | null>(null);
+    const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
     const { socket } = useSocket();
 
     useEffect(() => {
