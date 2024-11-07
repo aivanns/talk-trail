@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../shared/utils/services/tokenService';
+import { getToken, removeToken } from '../shared/utils/services/tokenService';
 import notificationService from '../shared/utils/services/notificationService';
 import { ERROR } from '../shared/constants/notification';
 import { SKIP_ERROR_NOTIFICATION_ENDPOINTS } from '../shared/constants/interceptor';
@@ -18,6 +18,7 @@ apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
+            removeToken();
             window.location.href = ROUTES.AUTH.LOGIN;
             return Promise.reject(error);
         }
