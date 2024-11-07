@@ -94,6 +94,47 @@ body {
     @apply text-text-color;
 }
 
+/* Settings input */
+.settings-modal .settings-input {
+    @apply bg-main-3 border-main-3 text-text-color focus:border-main-4;
+}
+
+.settings-modal .settings-input::placeholder {
+    @apply text-text-color opacity-50;
+}
+
+.settings-modal .settings-edit-input {
+    @apply bg-main-2 border-x-0 border-t-0 border-b-2 border-main-3 text-text-color focus:border-main-4 focus:ring-0 rounded-none px-1;
+}
+
+.settings-modal .settings-edit-input::placeholder {
+    @apply text-text-color opacity-50;
+}
+
+.settings-modal .ant-input-affix-wrapper {
+    @apply ring-0;
+}
+
+.settings-modal .ant-input-prefix {
+    @apply m-0;
+}
+
+.settings-modal .ant-input::placeholder {
+    @apply text-text-color opacity-50;
+}
+
+/* Settings button */
+
+.settings-modal .ant-btn {
+    @apply bg-main-3 ring-0 text-white;
+}
+
+.settings-modal .ant-btn:hover {
+    @apply bg-main-4 !important;
+}
+
+/* Scrollbar */
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }

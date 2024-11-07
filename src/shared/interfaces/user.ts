@@ -8,3 +8,11 @@ export interface UserInfo {
     uuid: string
     isOnline: boolean
   }
+
+export interface UserUpdate {
+    username?: string
+    password?: string
+    description?: string
+    name?: string
+  }
+  

@@ -1,15 +1,100 @@
- import { Modal } from "antd";
+import { Modal } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { CloseOutlined } from "@ant-design/icons";
+import avatar from "../../../../assets/avatar.svg";
+import { UserInfo } from "../../../../shared/interfaces/user";
+import Separator from "../user-modal/components/separator";
+import { formatTimeAgo } from "../../../../shared/utils/services/chatService";
+import { useEffect, useState } from "react";
+import { MAX_DESCRIPTION_LENGTH } from "../../../../shared/constants/modal";
+import UserEditModal from "./settings-edit-modal";
+import SettingsEditElement from "./components/settings-edit-element";
+import { FaFolder, FaHashtag } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
+import { getUser, updateUser } from "../../../../shared/utils/services/userService";
 
- const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void }) => {
+const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void, user: UserInfo }) => {
+    const [descriptionLength, setDescriptionLength] = useState(0);
+    const [description, setDescription] = useState<string | null>(null);
+    const [isUserNameEditModalOpen, setIsUserNameEditModalOpen] = useState(false);
+    const [isUserTagEditModalOpen, setIsUserTagEditModalOpen] = useState(false);
+    const [isUserFolderEditModalOpen, setIsUserFolderEditModalOpen] = useState(false);
+    const [user, setUser] = useState<UserInfo | undefined>(undefined);
+    const counterColor = descriptionLength > MAX_DESCRIPTION_LENGTH ? 'text-red-500' : 'text-main-4';
+
+    useEffect(() => {
+        if (isOpen) {
+            getUser().then(setUser);
+            setDescription(user?.description || null);
+        }
+    }, [isOpen]);
+
+    const refetchUser = async () => {
+        const updatedUser = await getUser();
+        setUser(updatedUser);
+        setDescription(updatedUser?.description || null);
+    }
+
+    const openModal = (modal: React.Dispatch<React.SetStateAction<boolean>>) => {
+        modal(true);
+    };
+    
+    const closeModal = (modal: React.Dispatch<React.SetStateAction<boolean>>) => {
+        modal(false);
+    };
+
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.target.value);
+        setDescriptionLength(e.target.value.length);
+    };
+
+    const handleCancel = () => {
+        if (description !== user?.description) {
+            updateUser({description: description || ""});
+        }
+        setDescription(null);
+        setDescriptionLength(0);
+        onCancel();
+    }
+
     return (
-        <Modal title="Settings" 
+        user && (
+        <Modal title="Настройки" 
             open={isOpen} 
-            onCancel={onCancel}
+            onCancel={handleCancel}
             footer={null}
             className="settings-modal"
+            width={450}
+            closeIcon={<CloseOutlined className="text-main-3" />}
         >
-            <div>SettingsModal</div>
+            <div className="flex flex-col items-center justify-center">
+                <img src={avatar} alt="avatar" className="min-w-28 rounded-full"/>
+                <p className="text-xl text-text-color mt-2 font-semibold">{user.name}</p>
+                <p className="text-sm text-main-4 cursor-pointer mt-1">{formatTimeAgo(user.lastTimeOnline)}</p>
+                <div className="flex items-center justify-center mt-4 w-full">
+                    <TextArea 
+                        value={description || ""}
+                        placeholder="Описание" 
+                        className="settings-input scrollbar-hide"
+                        autoSize={{ minRows: 1, maxRows: 6 }}
+                        onChange={handleDescriptionChange}
+                        maxLength={1000}
+                    />
+                    <p className={`text-md ${counterColor} ml-4`}>{MAX_DESCRIPTION_LENGTH - descriptionLength}</p>
+                </div>
+                <div className="w-full mt-4">
+                    <SettingsEditElement openUserEditModal={() => openModal(setIsUserNameEditModalOpen)} name="Имя" value={user.name} icon={<FaRegUserCircle className="text-main-4 text-lg mr-4" />} />
+                    <SettingsEditElement openUserEditModal={() => openModal(setIsUserTagEditModalOpen)} name="Тег" value={`@${user.username}`} icon={<FaHashtag className="text-main-4 text-lg mr-4" />} />
+                    <SettingsEditElement openUserEditModal={() => openModal(setIsUserFolderEditModalOpen)} name="Папки" value={user.folders?.length.toString()!} icon={<FaFolder className="text-main-4 text-lg mr-4" />} />
+                    <Separator />
+                    <p className="text-main-4 text-sm mt-4 text-center">{user.uuid}</p>
+                </div>
+            </div>
+            <UserEditModal isOpen={isUserNameEditModalOpen} onCancel={() => closeModal(setIsUserNameEditModalOpen)} title="Редактирование имени" user={user} type="name" refetchUser={refetchUser} />
+            <UserEditModal isOpen={isUserTagEditModalOpen} onCancel={() => closeModal(setIsUserTagEditModalOpen)} title="Редактирование тега" user={user} type="tag" refetchUser={refetchUser} />
+            <UserEditModal isOpen={isUserFolderEditModalOpen} onCancel={() => closeModal(setIsUserFolderEditModalOpen)} title="Редактирование папок" user={user} type="folder" refetchUser={refetchUser} />
         </Modal>
+        )
     )
  }
 

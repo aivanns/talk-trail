@@ -4,7 +4,7 @@ import { formatTimeAgo, getCompanionInfo } from "../../../../shared/utils/servic
 import { useEffect, useState } from "react";
 import { CompanionInfo } from "../../../../types/chat";
 import { useParams } from "react-router-dom";
-import UserOtherModal from "../user-modal/other/user-other-modal";
+import UserOtherModal from "../user-modal/companion/user-other-modal";
 
 const ChatWinHeader = () => {
     const [companionInfo, setCompanionInfo] = useState<CompanionInfo | null>(null);
