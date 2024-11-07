@@ -14,23 +14,31 @@ export class SocketChatService {
   public connect(token: string | undefined) {
     if (!token) return;
 
-    if (this.socket) {
-      this.socket.disconnect();
+    if (!this.socket || !this.socket.connected) {
+      console.log('Подключение сокета');
+      this.socket = io(this.url, {
+          extraHeaders: {
+              Authorization: `Bearer ${token}`
+          },
+          reconnection: true,
+          reconnectionAttempts: 5,
+          reconnectionDelay: 1000
+      });
+      
+      this.setupListeners();
     }
-
-    this.socket = io(this.url, {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    
-    this.setupListeners();
   }
 
   private setupListeners(): void {
     if (!this.socket) return;
 
-    this.socket.on('recieve-message', (message: SocketMessage) => {
+    this.socket.on('on-message-received', (message: SocketMessage) => {
+      console.log('Получено сообщение в сокете:', {
+        messageUuid: message.uuid,
+        chatUuid: message.chat.uuid,
+        content: message.content,
+        user: message.user
+      });
       this.messageHandlers.forEach(handler => {
         try {
           handler(message);
@@ -40,7 +48,20 @@ export class SocketChatService {
       });
     });
 
-    this.socket.on('chat-created', (chatUuid: string) => {
+    this.socket.on('connect', () => {
+      console.log('Сокет подключен');
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('Сокет отключен');
+    });
+
+    this.socket.on('error', (error: any) => {
+      console.error('Ошибка сокета:', error);
+    });
+
+    this.socket.on('on-chat-created', (chatUuid: string) => {
+      console.log('Создан чат:', chatUuid);
       this.chatCreatedHandlers.forEach(handler => {
         try {
           handler(chatUuid);
@@ -72,9 +93,12 @@ export class SocketChatService {
   }
 
   public disconnect(): void {
+    console.log('Отключение сокета');
     this.messageHandlers = [];
     this.chatCreatedHandlers = [];
-    this.socket?.disconnect();
-    this.socket = null;
+    if (this.socket) {
+        this.socket.disconnect();
+        this.socket = null;
+    }
   }
 }
