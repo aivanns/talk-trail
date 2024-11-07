@@ -1,8 +1,8 @@
 import { SocketMessage } from '../../../shared/interfaces/chats';
 import { formatMessageTime } from '../../../shared/utils/services/chatService';
-import { SelfUser } from '../../../shared/interfaces/user';
+import { UserInfo } from '../../../shared/interfaces/user';
 
-const ChatMessage = ({ content, createdAt, user, currentUser }: SocketMessage & {currentUser: SelfUser | null}) => {
+const ChatMessage = ({ content, createdAt, user, currentUser }: SocketMessage & {currentUser: UserInfo | null}) => {
     if (!user || !currentUser) return null;
 
     const isLastInSequence = true;
