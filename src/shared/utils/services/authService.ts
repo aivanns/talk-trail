@@ -1,6 +1,8 @@
-import { isAuthenticated, setToken } from './tokenService';
+import { isAuthenticated, removeToken, setToken } from './tokenService';
 import { AuthResponse, AuthReturn } from '../../../shared/interfaces/auth';
 import { apiInstance } from '../../../api/global';
+import { ROUTES } from '../../constants/routes';
+import { NavigateFunction } from 'react-router-dom';
 
 export const register = async (name: string, password: string, username: string): Promise<AuthReturn> => {
   try {
@@ -36,4 +38,9 @@ export const checkAuth = async (setIsAuth: (isAuth: boolean) => void, setIsLoadi
   } catch (error) {
       setIsLoading(false);
   }
+};
+
+export const logout = async (navigate: NavigateFunction) => {
+  removeToken();
+  navigate(ROUTES.AUTH.ROOT);
 };
