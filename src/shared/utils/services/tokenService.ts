@@ -2,6 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 import type { DecodedToken } from '../../../shared/interfaces/auth';
 import { apiInstance } from '../../../api/global';
+import { ROUTES } from '../../constants/routes';
 
 export const setToken = (token: string, refreshToken: string | null = null) => {
   Cookies.set('token', token, {sameSite: 'Strict' });
@@ -16,6 +17,7 @@ export const getToken = () => {
 
 export const removeToken = (refreshToken = false) => {
   Cookies.remove('token');
+  window.location.href = ROUTES.AUTH.LOGIN;
   if (refreshToken) {
     Cookies.remove('refreshToken');
   }
