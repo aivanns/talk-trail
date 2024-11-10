@@ -3,13 +3,27 @@ import { CloseOutlined } from "@ant-design/icons";
 import Separator from "../components/separator";
 import { USER_MODAL_TITLE } from "../../../../../shared/constants/modal";
 import avatar from "../../../../../assets/avatar.svg";
-import { formatTimeAgo } from "../../../../../shared/utils/services/chatService";
+import { formatTimeAgo, getCompanionInfo } from "../../../../../shared/utils/services/chatService";
 import { FaInfoCircle } from "react-icons/fa";
-import { CompanionInfo } from "../../../../../types/chat";
+import { useState } from "react";
+import { useEffect } from "react";
+import { UserInfo } from "../../../../../shared/interfaces/user";
+import { useParams } from "react-router-dom";
 
-const UserOtherModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: CompanionInfo, closeModal: () => void }) => {
+const UserOtherModal = ({ isOpen, closeModal }: { isOpen: boolean, closeModal: () => void }) => {
+    const { uuid } = useParams();
+    const [user, setUser] = useState<UserInfo | undefined>(undefined);
 
-    return (
+    const refetchUser = async () => {
+        const updatedUser = await getCompanionInfo(uuid!);
+        setUser(updatedUser);
+    }
+
+    useEffect(() => {
+        refetchUser();
+    }, [isOpen]);
+
+    return user ? (
         <Modal
             title={USER_MODAL_TITLE}
             open={isOpen}
@@ -40,7 +54,7 @@ const UserOtherModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: C
                 <p className="text-sm text-main-4">{user.uuid}</p>
             </div>
         </Modal>
-    );
+    ) : null;
 };
 
 export default UserOtherModal;

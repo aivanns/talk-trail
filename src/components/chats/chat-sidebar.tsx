@@ -35,8 +35,8 @@ const ChatSidebar = () => {
 
     return (
         <>
-            {user && <UserSelfModal isOpen={isUserModalOpen} closeModal={closeUserModal} user={user} />}
-            {user && <SettingsModal isOpen={isSettingsModalOpen} onCancel={closeSettingsModal} user={user} />}
+            {user && <UserSelfModal isOpen={isUserModalOpen} closeModal={closeUserModal}/>}
+            {user && <SettingsModal isOpen={isSettingsModalOpen} onCancel={closeSettingsModal}/>}
             <div className='h-[90dvh] w-20 bg-main-1 rounded-r-2xl self-center resize-none flex-shrink-0 flex flex-col justify-between'>
                 <div className='flex justify-center'>
                 <img src={avatar} alt="avatar" className='w-14 h-14 rounded-full mt-3 cursor-pointer' onClick={() => openUserModal()} />

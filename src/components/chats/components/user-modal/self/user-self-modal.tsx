@@ -6,10 +6,22 @@ import { UserInfo } from "../../../../../shared/interfaces/user";
 import avatar from "../../../../../assets/avatar.svg";
 import { formatTimeAgo } from "../../../../../shared/utils/services/chatService";
 import { FaInfoCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { getUser } from "../../../../../shared/utils/services/userService";
 
-const UserSelfModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: UserInfo, closeModal: () => void }) => {
+const UserSelfModal = ({ isOpen, closeModal }: { isOpen: boolean, closeModal: () => void }) => {
+    const [user, setUser] = useState<UserInfo | undefined>(undefined);
 
-    return (
+    const refetchUser = async () => {
+        const updatedUser = await getUser();
+        setUser(updatedUser);
+    }
+
+    useEffect(() => {
+        refetchUser();
+    }, [isOpen]);
+
+    return user ? (
         <Modal
             title={USER_MODAL_TITLE}
             open={isOpen}
@@ -40,7 +52,7 @@ const UserSelfModal = ({ isOpen, user, closeModal }: { isOpen: boolean, user: Us
                 <p className="text-sm text-main-4">{user.uuid}</p>
             </div>
         </Modal>
-    );
+    ) : null;
 };
 
 export default UserSelfModal;

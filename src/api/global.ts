@@ -17,9 +17,20 @@ export const getHeaders = () => ({
 apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const isAuthPage = window.location.pathname === ROUTES.AUTH.LOGIN || window.location.pathname === ROUTES.AUTH.REGISTER;
+        if (isAuthPage) {
+            switch (error.response?.status) {
+                case 409:
+                    return new Promise(() => notificationService.error(ERROR, 'Пользователь с таким именем уже существует'));
+                case 404:
+                    return new Promise(() => notificationService.error(ERROR, 'Неверный логин или пароль'));
+                case 401:
+                    return new Promise(() => notificationService.error(ERROR, 'Пользователь не найден'));
+            }
+        }
+
+        if (error.response?.status === 401 || error.response?.status === 404) {
             removeToken();
-            window.location.href = ROUTES.AUTH.LOGIN;
             return Promise.reject(error);
         }
 

@@ -3,15 +3,20 @@ import { UserInfo } from "../../../../../shared/interfaces/user";
 import { useState, useEffect } from "react";
 import { updateUser } from "../../../../../shared/utils/services/userService";
 
-const SettingsEditName = ({ user, closeModal }: { user: UserInfo | undefined, closeModal: () => void }) => {
+const SettingsEditName = ({ user, closeModal, refetchUser }: { 
+    user: UserInfo | undefined, 
+    closeModal: () => void,
+    refetchUser: () => void 
+}) => {
     const [name, setName] = useState(user!.name);
     
     useEffect(() => {
         setName(user!.name);
     }, [user, closeModal]);
 
-    const handleSave = () => {
-        updateUser({name: name});
+    const handleSave = async () => {
+        await updateUser({name: name});
+        refetchUser();
         closeModal();
     }
 
