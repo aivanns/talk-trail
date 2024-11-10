@@ -22,7 +22,7 @@ const UserEditModal = ({ isOpen, onCancel, title, user, type, refetchUser }: {
                 width={450}
                 closeIcon={<CloseOutlined className="text-main-3" />}
             >
-            {type === "name" && <SettingsEditName user={user} closeModal={onCancel} />}
+            {type === "name" && <SettingsEditName user={user} closeModal={onCancel} refetchUser={refetchUser} />}
             {type === "tag" && <SettingsEditTag user={user} closeModal={onCancel} refetchUser={refetchUser} />}
         </Modal>
     )
