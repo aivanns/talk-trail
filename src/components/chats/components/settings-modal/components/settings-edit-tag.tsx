@@ -2,6 +2,7 @@ import { Button, Input } from "antd";
 import { UserInfo } from "../../../../../shared/interfaces/user";
 import { useState, useEffect } from "react";
 import { updateUser } from "../../../../../shared/utils/services/userService";
+import { validateUsername } from "../../../../../shared/utils/services/validationService";
 
 const SettingsEditTag = ({ user, closeModal, refetchUser }: { 
     user: UserInfo | undefined, 
@@ -14,6 +15,7 @@ const SettingsEditTag = ({ user, closeModal, refetchUser }: {
     }, [user, closeModal]);
 
     const handleSave = async () => {
+        if (!validateUsername(tag)) return;
         await updateUser({username: tag});
         refetchUser();
         closeModal();

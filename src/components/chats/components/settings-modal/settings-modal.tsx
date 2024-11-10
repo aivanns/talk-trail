@@ -12,6 +12,7 @@ import SettingsEditElement from "./components/settings-edit-element";
 import { FaFolder, FaHashtag } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { getUser, updateUser } from "../../../../shared/utils/services/userService";
+import { validateDescription } from "../../../../shared/utils/services/validationService";
 
 const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void}) => {
     const [descriptionLength, setDescriptionLength] = useState(0);
@@ -55,6 +56,7 @@ const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => 
     };
 
     const handleCancel = () => {
+        if (!validateDescription(description || "")) return;
         if (description !== user?.description) {
             updateUser({description: description || ""});
         }
