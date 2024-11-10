@@ -13,7 +13,7 @@ import { FaFolder, FaHashtag } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { getUser, updateUser } from "../../../../shared/utils/services/userService";
 
-const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void, user: UserInfo }) => {
+const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void}) => {
     const [descriptionLength, setDescriptionLength] = useState(0);
     const [description, setDescription] = useState<string | null>(null);
     const [isUserNameEditModalOpen, setIsUserNameEditModalOpen] = useState(false);

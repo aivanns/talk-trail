@@ -30,7 +30,7 @@ const ChatWinHeader = () => {
                     <IoIosMore className="text-3xl text-main-4 hover:text-text-color cursor-pointer" />
                 </div>
             </div>
-            {companionInfo && <UserOtherModal isOpen={isOpen} closeModal={() => setIsOpen(false)} user={companionInfo} />}
+            {companionInfo && <UserOtherModal isOpen={isOpen} closeModal={() => setIsOpen(false)}/>}
         </>
     )
 }
