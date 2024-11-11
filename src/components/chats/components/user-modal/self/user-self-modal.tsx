@@ -34,7 +34,7 @@ const UserSelfModal = ({ isOpen, closeModal }: { isOpen: boolean, closeModal: ()
                 <img src={user.avatar ? user.avatar : avatar} alt="Avatar" className="w-20 h-20 rounded-full" />
                 <div className="flex flex-col ml-6">
                     <p className="text-xl text-text-color">{user.name}</p>
-                    <p className="text-sm text-main-4 cursor-pointer">{formatTimeAgo(user.lastTimeOnline)}</p>
+                    <p className="text-sm text-main-4">{formatTimeAgo(user.lastTimeOnline)}</p>
                 </div>
             </div>
             <Separator />

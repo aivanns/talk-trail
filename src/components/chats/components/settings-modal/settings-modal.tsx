@@ -86,7 +86,7 @@ const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => 
             <div className="flex flex-col items-center justify-center">
                 <img src={avatar} alt="avatar" className="min-w-28 rounded-full"/>
                 <p className="text-xl text-text-color mt-2 font-semibold">{user.name}</p>
-                <p className="text-sm text-main-4 cursor-pointer mt-1">{formatTimeAgo(user.lastTimeOnline)}</p>
+                <p className="text-sm text-main-4 mt-1">{formatTimeAgo(user.lastTimeOnline)}</p>
                 {/* Description */}
                 <div className="flex items-center justify-center mt-4 w-full">
                     <TextArea 

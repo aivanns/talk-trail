@@ -3,6 +3,7 @@ import { UserInfo } from "../../../../shared/interfaces/user";
 import { CloseOutlined } from "@ant-design/icons";
 import SettingsEditName from "./components/settings-edit-name";
 import SettingsEditTag from "./components/settings-edit-tag";
+import SettingsEditFolders from "./components/settings-edit-folders";
 
 const UserEditModal = ({ isOpen, onCancel, title, user, type, refetchUser }: { 
     isOpen: boolean, 
@@ -24,6 +25,7 @@ const UserEditModal = ({ isOpen, onCancel, title, user, type, refetchUser }: {
             >
             {type === "name" && <SettingsEditName user={user} closeModal={onCancel} refetchUser={refetchUser} />}
             {type === "tag" && <SettingsEditTag user={user} closeModal={onCancel} refetchUser={refetchUser} />}
+            {type === "folder" && <SettingsEditFolders user={user} closeModal={onCancel} refetchUser={refetchUser} />}
         </Modal>
     )
 }

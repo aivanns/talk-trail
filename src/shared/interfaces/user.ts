@@ -1,9 +1,11 @@
+import { Folder } from "./folders";
+
 export interface UserInfo {
     avatar: string
     description: string
     lastTimeOnline: Date
     name: string
-    folders?: string[]
+    folders?: Folder[]
     username: string
     uuid: string
     isOnline: boolean
