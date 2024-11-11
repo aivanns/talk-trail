@@ -9,12 +9,16 @@ import { useEffect, useState } from "react";
 import { MAX_DESCRIPTION_LENGTH } from "../../../../shared/constants/modal";
 import UserEditModal from "./settings-edit-modal";
 import SettingsEditElement from "./components/settings-edit-element";
-import { FaFolder, FaHashtag } from "react-icons/fa";
+import { FaFolder, FaHashtag, FaSignOutAlt } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { getUser, updateUser } from "../../../../shared/utils/services/userService";
 import { validateDescription } from "../../../../shared/utils/services/validationService";
+import { logout } from "../../../../shared/utils/services/authService";
+import { useNavigate } from "react-router-dom";
 
 const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => void}) => {
+    const navigate = useNavigate();
+
     const [descriptionLength, setDescriptionLength] = useState(0);
     const [description, setDescription] = useState<string | null>(null);
     const [isUserNameEditModalOpen, setIsUserNameEditModalOpen] = useState(false);
@@ -65,6 +69,10 @@ const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => 
         onCancel();
     }
 
+    const handleLogout = () => {
+        logout(navigate);
+    }
+
     return (
         user && (
         <Modal title="Настройки" 
@@ -96,7 +104,11 @@ const SettingsModal = ({ isOpen, onCancel }: { isOpen: boolean, onCancel: () => 
                     <SettingsEditElement openUserEditModal={() => openModal(setIsUserTagEditModalOpen)} name="Тег" value={`@${user.username}`} icon={<FaHashtag className="text-main-4 text-lg mr-4" />} />
                     <SettingsEditElement openUserEditModal={() => openModal(setIsUserFolderEditModalOpen)} name="Папки" value={user.folders?.length.toString()!} icon={<FaFolder className="text-main-4 text-lg mr-4" />} />
                     <Separator />
-                    <p className="text-main-4 text-sm mt-4 text-center">{user.uuid}</p>
+                    <div onClick={handleLogout} className="flex items-center gap-4 h-10 justify-center hover:bg-main-3 transition-colors duration-150 cursor-pointer">
+                        <FaSignOutAlt className="text-red-500 text-lg" />
+                        <p className="text-red-500 text-sm text-center font-bold">Выйти</p>
+                    </div>
+                    <p className="text-main-4 text-sm mt-2 text-center">{user.uuid}</p>
                 </div>
             </div>
             <UserEditModal isOpen={isUserNameEditModalOpen} onCancel={() => closeModal(setIsUserNameEditModalOpen)} title="Редактирование имени" user={user} type="name" refetchUser={refetchUser} />
